@@ -1,0 +1,15 @@
+{
+  "name": "fp-template-compiled",
+  "version": "0.0.0",
+  "description": "Exporter of compiled templates - extension for Fepper",
+  "dependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electric-eloquence/fp-tpl-compile.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">= 4.0.0"
+  }
+}
