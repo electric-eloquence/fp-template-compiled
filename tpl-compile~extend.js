@@ -8,14 +8,24 @@ const fs = require('fs-extra');
 const glob = require('glob');
 const gulp = require('gulp');
 const path = require('path');
+const runSequence = require('run-sequence');
 const yaml = require('js-yaml');
 
 const utils = require('../../../app/core/lib/utils');
 
-const patternDir = `${rootDir}/${conf.ui.paths.public.patterns}`;
-const tplDir = `${rootDir}/${conf.ui.paths.source.templates}`;
+const patternDirPub = path.normalize(`${rootDir}/${conf.ui.paths.public.patterns}`);
+const patternDirSrc = path.normalize(`${rootDir}/${conf.ui.paths.source.patterns}`);
+const tplDir = path.normalize(`${rootDir}/${conf.ui.paths.source.templates}`);
 
 gulp.task('tpl-compile', function (cb) {
+  runSequence(
+    'patternlab:build',
+    'tpl-compile:copy',
+    cb
+  );
+});
+
+gulp.task('tpl-compile:copy', function (cb) {
   var files = glob.sync(`${tplDir}/**/*.yml`) || [];
 
   for (let i = 0; i < files.length; i++) {
@@ -49,8 +59,14 @@ gulp.task('tpl-compile', function (cb) {
       continue;
     }
 
-    let pubPattern = files[i].replace(`${patternDir}/`, '');
-    pubPattern = pubPattern.slice(-4);
+    let pubPattern = files[i].replace(`${patternDirSrc}/`, '');
+    pubPattern = pubPattern.slice(0, -4);
     pubPattern = pubPattern.replace(/\//g, '-');
+    pubPattern = pubPattern.replace(/~/g, '-');
+    let pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
+    let destFile = `${rootDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}.${data.tpl_compile_ext.trim()}`;
+
+    fs.copySync(pubFile, destFile);
   }
+  cb();
 });
