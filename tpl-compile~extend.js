@@ -10,7 +10,7 @@ const gulp = require('gulp');
 const path = require('path');
 const yaml = require('js-yaml');
 
-const utils = require('../../../core/lib/utils');
+const utils = require('../../../app/core/lib/utils');
 
 const patternDir = `${rootDir}/${conf.ui.paths.public.patterns}`;
 const tplDir = `${rootDir}/${conf.ui.paths.source.templates}`;
