@@ -1,5 +1,5 @@
 {
-  "name": "fp-template-compiled",
+  "name": "fp-tpl-compile",
   "version": "0.0.0",
   "description": "Exporter of compiled templates - extension for Fepper",
   "dependencies": {
