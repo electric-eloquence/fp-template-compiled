@@ -66,7 +66,7 @@ gulp.task('tpl-compile:copy', function (cb) {
     pubPattern = pubPattern.replace(/~/g, '-');
     let pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
     let pubContent = fs.readFileSync(pubFile, conf.enc);
-    pubContent = beautify(pubContent, {indent_size: 4});
+    pubContent = beautify(pubContent, {indent_size: 4}) + '\n';
 
     let destFile = `${rootDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}.${data.tpl_compile_ext.trim()}`;
 
