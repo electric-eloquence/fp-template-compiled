@@ -71,6 +71,9 @@ gulp.task('tpl-compile:copy', function (cb) {
     let destFile = `${rootDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}.${data.tpl_compile_ext.trim()}`;
 
     fs.writeFileSync(destFile, pubContent);
+
+    // Log to console.
+    utils.log('Template \x1b[36m%s\x1b[0m compiled.', destFile.replace(rootDir, '').replace(/^\//, ''));
   }
   cb();
 });
