@@ -4,6 +4,7 @@ const conf = global.conf;
 const pref = global.pref;
 const rootDir = global.rootDir;
 
+const beautify = require('js-beautify').html;
 const fs = require('fs-extra');
 const glob = require('glob');
 const gulp = require('gulp');
@@ -64,9 +65,12 @@ gulp.task('tpl-compile:copy', function (cb) {
     pubPattern = pubPattern.replace(/\//g, '-');
     pubPattern = pubPattern.replace(/~/g, '-');
     let pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
+    let pubContent = fs.readFileSync(pubFile, conf.enc);
+    pubContent = beautify(pubContent, {indent_size: 4});
+
     let destFile = `${rootDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}.${data.tpl_compile_ext.trim()}`;
 
-    fs.copySync(pubFile, destFile);
+    fs.writeFileSync(destFile, pubContent);
   }
   cb();
 });
