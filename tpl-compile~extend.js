@@ -20,7 +20,7 @@ const tplDir = path.normalize(`${rootDir}/${conf.ui.paths.source.templates}`);
 
 gulp.task('tpl-compile', function (cb) {
   runSequence(
-    'patternlab:build',
+    'once',
     'tpl-compile:copy',
     cb
   );
