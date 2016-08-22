@@ -18,6 +18,39 @@ const patternDirPub = path.normalize(`${rootDir}/${conf.ui.paths.public.patterns
 const patternDirSrc = path.normalize(`${rootDir}/${conf.ui.paths.source.patterns}`);
 const tplDir = path.normalize(`${rootDir}/${conf.ui.paths.source.templates}`);
 
+// Only Handlebars right now. Could easily encode for other languages.
+gulp.task('hbs-encode', function (cb) {
+  let argv = require('yargs')(process.argv).argv;
+
+  if (!argv || !argv.e) {
+    utils.error('Error: need an -e argument to identify your source files by extension!');
+    return;
+  }
+
+  if (argv.e[0] === '.') {
+    utils.error('Error: do not include a leading period in the extension!');
+    return;
+  }
+
+  var ext = argv.e;
+  var files = glob.sync(`${patternDirSrc}/**/*.${ext}`) || [];
+
+  for (let i = 0; i < files.length; i++) {
+    let content = fs.readFileSync(files[i], conf.enc);
+    content = content.replace(/\{\{/g, '<!--%7B');
+    content = content.replace(/\}\}/g, '%7D-->');
+
+    let regex = new RegExp(`${ext}$`);
+    let mustache = files[i].replace(regex, 'mustache');
+
+    fs.writeFileSync(mustache, content);
+    fs.unlinkSync(files[i]);
+
+    // Log to console.
+    utils.log('\x1b[36m%s\x1b[0m encoded to \x1b[36m%s\x1b[0m.', files[i].replace(rootDir, '').replace(/^\//, ''), mustache.replace(rootDir, '').replace(/^\//, ''));
+  }
+});
+
 gulp.task('tpl-compile', function (cb) {
   runSequence(
     'once',
