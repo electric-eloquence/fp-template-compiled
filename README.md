@@ -3,6 +3,7 @@
 ### Commands
 ```shell
 fp tpl-compile
+fp tpl-encode:hbs -e "extension"
 ```
 
 `fp tpl-compile` will export templates from the `source/_patterns/03-templates` 
@@ -18,3 +19,27 @@ values to their corresponding keys in the template's JSON file.
 
 In the template's YAML file, assign the destination directory to a `tpl_compile_dir` 
 key, and the destination file's extension to a `tpl_compile_ext` key.
+
+`fp tpl-encode:hbs` automates the import of templates into Fepper. Since it's 
+unlikely that there will ever be one-to-one compatibility between other systems 
+and Fepper, the other templates' tags must be encoded for them to be usuable in 
+Fepper.
+
+Stashes (the symbols used to demarcate tags) must be escaped by URL-encoding the 
+type of stash (opening or closing) and then surrounding that code in triple 
+curly braces. They can then be replaced with normal data values in Fepper. In 
+`source/_patterns/03-templates`, "%7B" and "%7D" should always evaluate to 
+opening and closing stashes respectively. Outside that directory, they should 
+evaluate to "\<!--" and "--\>" so they can be ignored by humans viewing the UI.
+
+`fp tpl-encode:hbs` automates this. First, the backend template file must be 
+copied to the directory where you wish to import it. (It must be within 
+`source/patterns/03-templates`.) Then, run the command with the extension used 
+by the backend template file.
+
+`fp tpl-encode:hbs` only works with Handlebars at the moment, but will likely be 
+expanded to process more templating languages.
+
+P.S. While "%7B" and "%7D" literally decode to "{" and "}", it is likely that 
+they will be used as keys for stashes in languages that do not use curly braces 
+to demarcate tags.
