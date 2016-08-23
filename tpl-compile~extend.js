@@ -1,7 +1,6 @@
 'use strict';
 
 const conf = global.conf;
-const pref = global.pref;
 const rootDir = global.rootDir;
 
 const beautify = require('js-beautify').html;
@@ -80,7 +79,7 @@ function tplEncode(tplType, argv) {
     // These hide the encoded tags in all views except 03-templates.
     let dataFile = `${dataDir}/_data.json`;
     let dataObj = {};
-    let dataStr = ''
+    let dataStr = '';
     try {
       dataObj = fs.readJsonSync(dataFile);
       dataStr = fs.readFileSync(dataFile, conf.enc);
@@ -115,7 +114,7 @@ gulp.task('tpl-compile:copy', function (cb) {
     }
     catch (err) {
       utils.error(err);
-      continue; 
+      continue;
     }
 
     // Only process valid files.
