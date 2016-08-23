@@ -30,7 +30,7 @@ type of stash (opening or closing) and then surrounding that code in triple
 curly braces. They can then be replaced with normal data values in Fepper. In 
 `source/_patterns/03-templates`, "%7B" and "%7D" should always evaluate to 
 opening and closing stashes respectively. Outside that directory, they should 
-evaluate to "\<!--" and "--\>" so they can be ignored by humans viewing the UI.
+evaluate to "<\!--" and "--\>" so they can be ignored by humans viewing the UI.
 
 `fp tpl-encode:hbs` automates this. First, the backend template file must be 
 copied to the directory where you wish to import it. (It must be within 
