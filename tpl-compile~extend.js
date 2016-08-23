@@ -18,46 +18,63 @@ const patternDirPub = path.normalize(`${rootDir}/${conf.ui.paths.public.patterns
 const patternDirSrc = path.normalize(`${rootDir}/${conf.ui.paths.source.patterns}`);
 const tplDir = path.normalize(`${rootDir}/${conf.ui.paths.source.templates}`);
 
-// Only Handlebars right now. Could easily encode for other languages.
-gulp.task('hbs-encode', function (cb) {
-  let argv = require('yargs')(process.argv).argv;
+function tplEncodeHbs(content) {
+  content = content.replace(/\{\{/g, '{{{ %7B');
+  content = content.replace(/(\})?\}\}/g, '$1%7D }}}');
+  content = content.replace(/(\{\{ %7B)/g, '$1 }}}');
+  content = content.replace(/(%7D \}\})/g, '{{{ $1');
 
+  return content;
+}
+
+function writeJsonHbs(jsonFile) {
+  fs.writeFileSync(jsonFile, '{\n  "%7B": "{{",\n  "%7D": "}}"\n}\n');
+}
+
+function tplEncode(tplType, argv) {
   if (!argv || !argv.e) {
     utils.error('Error: need an -e argument to identify your source files by extension!');
     return;
   }
 
+  var ext;
   if (argv.e[0] === '.') {
-    utils.error('Error: do not include a leading period in the extension!');
-    return;
+    ext = argv.e.slice(1);
+  }
+  else {
+    ext = argv.e;
   }
 
-  var ext = argv.e;
   var files = glob.sync(`${patternDirSrc}/**/*.${ext}`) || [];
-
   for (let i = 0; i < files.length; i++) {
     let content = fs.readFileSync(files[i], conf.enc);
-    content = content.replace(/\{\{/g, '<!--%7B');
-    content = content.replace(/\}\}/g, '%7D-->');
+
+    // Only Handlebars right now. Could easily encode for other languages.
+    switch (tplType) {
+      case 'hbs':
+        content = tplEncodeHbs(content);
+        break;
+    }
 
     let regex = new RegExp(`${ext}$`);
-    let mustache = files[i].replace(regex, 'mustache');
+    let mustacheFile = files[i].replace(regex, 'mustache');
+    let jsonFile = files[i].replace(regex, 'json');
 
-    fs.writeFileSync(mustache, content);
+    fs.writeFileSync(mustacheFile, content);
+
+    // Only Handlebars right now. Could easily encode for other languages.
+    switch (tplType) {
+      case 'hbs':
+        writeJsonHbs(jsonFile);
+        break;
+    }
+
     fs.unlinkSync(files[i]);
 
     // Log to console.
-    utils.log('\x1b[36m%s\x1b[0m encoded to \x1b[36m%s\x1b[0m.', files[i].replace(rootDir, '').replace(/^\//, ''), mustache.replace(rootDir, '').replace(/^\//, ''));
+    utils.log('\x1b[36m%s\x1b[0m encoded to \x1b[36m%s\x1b[0m.', files[i].replace(rootDir, '').replace(/^\//, ''), mustacheFile.replace(rootDir, '').replace(/^\//, ''));
   }
-});
-
-gulp.task('tpl-compile', function (cb) {
-  runSequence(
-    'once',
-    'tpl-compile:copy',
-    cb
-  );
-});
+}
 
 gulp.task('tpl-compile:copy', function (cb) {
   var files = glob.sync(`${tplDir}/**/*.yml`) || [];
@@ -110,5 +127,20 @@ gulp.task('tpl-compile:copy', function (cb) {
     // Log to console.
     utils.log('Template \x1b[36m%s\x1b[0m compiled.', destFile.replace(rootDir, '').replace(/^\//, ''));
   }
+  cb();
+});
+
+gulp.task('tpl-compile', function (cb) {
+  runSequence(
+    'once',
+    'tpl-compile:copy',
+    cb
+  );
+});
+
+gulp.task('tpl-encode:hbs', function (cb) {
+  let argv = require('yargs')(process.argv).argv;
+
+  tplEncode('hbs', argv);
   cb();
 });
