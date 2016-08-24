@@ -14,6 +14,7 @@ const yaml = require('js-yaml');
 const utils = require('../../../app/core/lib/utils');
 
 const dataDir = path.normalize(`${rootDir}/${conf.ui.paths.source.data}`);
+const dataFile = `${dataDir}/_data.json`;
 const patternDirPub = path.normalize(`${rootDir}/${conf.ui.paths.public.patterns}`);
 const patternDirSrc = path.normalize(`${rootDir}/${conf.ui.paths.source.patterns}`);
 const tplDir = path.normalize(`${rootDir}/${conf.ui.paths.source.templates}`);
@@ -43,6 +44,16 @@ function tplEncode(tplType, argv) {
   }
   else {
     ext = argv.e;
+  }
+
+  var dataObj = {};
+  var dataStr = '';
+  try {
+    dataObj = fs.readJsonSync(dataFile);
+    dataStr = fs.readFileSync(dataFile, conf.enc);
+  }
+  catch (err) {
+    // Fail gracefully. A correctly formed dataFile is not crucial for this.
   }
 
   var files = glob.sync(`${patternDirSrc}/**/*.${ext}`) || [];
@@ -77,25 +88,15 @@ function tplEncode(tplType, argv) {
 
     // Add key/values to _data.json if they are not there.
     // These hide the encoded tags in all views except 03-templates.
-    let dataFile = `${dataDir}/_data.json`;
-    let dataObj = {};
-    let dataStr = '';
-    try {
-      dataObj = fs.readJsonSync(dataFile);
-      dataStr = fs.readFileSync(dataFile, conf.enc);
-    }
-    catch (err) {
-      // Fail gracefully.
-      return;
-    }
-
     if (!dataObj['%7B']) {
       dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "%7B": "<!--"\n}$1');
+      dataObj = JSON.parse(dataStr);
       fs.writeFileSync(dataFile, dataStr);
     }
 
     if (!dataObj['%7D']) {
       dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "%7D": "-->"\n}$1');
+      dataObj = JSON.parse(dataStr);
       fs.writeFileSync(dataFile, dataStr);
     }
   }
