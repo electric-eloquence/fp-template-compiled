@@ -1,5 +1,6 @@
 'use strict';
 
+const appDir = global.appDir;
 const conf = global.conf;
 const rootDir = global.rootDir;
 
@@ -8,6 +9,7 @@ const fs = require('fs-extra');
 const glob = require('glob');
 const gulp = require('gulp');
 const path = require('path');
+const RcLoader = require('rcloader');
 const runSequence = require('run-sequence');
 const yaml = require('js-yaml');
 
@@ -104,6 +106,9 @@ function tplEncode(tplType, argv) {
 
 gulp.task('tpl-compile:copy', function (cb) {
   var files = glob.sync(`${tplDir}/**/*.yml`) || [];
+  // Load js-beautify with options configured in .jsbeautifyrc
+  var rcLoader = new RcLoader('.jsbeautifyrc', {});
+  var rcOpts = rcLoader.for(appDir, {lookup: true});
 
   for (let i = 0; i < files.length; i++) {
     let data = {};
@@ -142,7 +147,10 @@ gulp.task('tpl-compile:copy', function (cb) {
     pubPattern = pubPattern.replace(/~/g, '-');
     let pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
     let pubContent = fs.readFileSync(pubFile, conf.enc);
-    pubContent = beautify(pubContent, {indent_size: 4}) + '\n';
+
+    // Load .jsbeautifyrc and beautify html
+    pubContent = beautify(pubContent, rcOpts) + '\n';
+
     // Delete empty lines.
     pubContent = pubContent.replace(/^\s*$\n/gm, '');
 
