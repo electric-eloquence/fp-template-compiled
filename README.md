@@ -49,3 +49,7 @@ expanded to process more templating languages.
 P.S. While "%7B" and "%7D" literally decode to "{" and "}", it is likely that 
 they will be used as keys for stashes in languages that do not use curly braces 
 to demarcate tags.
+
+The output HTML will be formatted by [js-beautify](https://github.com/beautify-web/js-beautify). 
+To override the default configurations, add a .jsbeautifyrc file at the root of 
+Fepper.
