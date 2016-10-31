@@ -2,6 +2,10 @@
   "name": "fp-tpl-compile",
   "version": "0.1.0",
   "description": "Exporter of compiled templates - extension for Fepper",
+  "dependencies": {
+    "rcloader": "^0.2.1",
+    "yargs": "^5.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/electric-eloquence/fp-tpl-compile.git"
@@ -9,9 +13,5 @@
   "license": "MIT",
   "engines": {
     "node": ">= 4.0.0"
-  },
-  "devDependencies": {
-    "rcloader": "^0.2.1",
-    "yargs": "^5.0.0"
   }
 }
