@@ -46,9 +46,9 @@ corresponding .json file. Underscore-prefixed .json will get compiled into
 `fp tpl-encode:hbs` only works with Handlebars at the moment, but will likely be 
 expanded to process more templating languages.
 
-P.S. While "%7B" and "%7D" literally decode to "{" and "}", it is likely that 
-they will be used as keys for stashes in languages that do not use curly braces 
-to demarcate tags.
+"%7B" and "%7D" literally decode to "{" and "}". The literal translations of 
+the codes are unimportant. They are meant to signify the opening and closing of 
+a stash, and are ultimately language agnostic.
 
 The output HTML will be formatted by [js-beautify](https://github.com/beautify-web/js-beautify). 
 To override the default configurations, add a .jsbeautifyrc file at the root of 
