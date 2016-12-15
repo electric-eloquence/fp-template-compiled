@@ -13,13 +13,13 @@ const RcLoader = require('rcloader');
 const runSequence = require('run-sequence');
 const yaml = require('js-yaml');
 
-const utils = require('../../../app/core/lib/utils');
+const utils = require(`${appDir}/core/lib/utils`);
 
-const dataDir = path.normalize(`${rootDir}/${conf.ui.paths.source.data}`);
+const dataDir = utils.pathResolve(conf.ui.paths.source.data);
 const dataFile = `${dataDir}/_data.json`;
-const patternDirPub = path.normalize(`${rootDir}/${conf.ui.paths.public.patterns}`);
-const patternDirSrc = path.normalize(`${rootDir}/${conf.ui.paths.source.patterns}`);
-const tplDir = path.normalize(`${rootDir}/${conf.ui.paths.source.templates}`);
+const patternDirPub = utils.pathResolve(conf.ui.paths.public.patterns);
+const patternDirSrc = utils.pathResolve(conf.ui.paths.source.patterns);
+const tplDir = utils.pathResolve(conf.ui.paths.source.templates);
 
 function tplEncodeHbs(content) {
   content = content.replace(/\{\{/g, '{{{ %7B');
