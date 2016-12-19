@@ -2,7 +2,7 @@
 
 const appDir = global.appDir;
 const conf = global.conf;
-const rootDir = global.rootDir;
+const workDir = global.workDir;
 
 const beautify = require('js-beautify').html;
 const fs = require('fs-extra');
@@ -83,7 +83,7 @@ function tplEncode(tplType, argv) {
     }
 
     // Crucial part is done. Log to console.
-    utils.log('\x1b[36m%s\x1b[0m encoded to \x1b[36m%s\x1b[0m.', files[i].replace(rootDir, '').replace(/^\//, ''), mustacheFile.replace(rootDir, '').replace(/^\//, ''));
+    utils.log('\x1b[36m%s\x1b[0m encoded to \x1b[36m%s\x1b[0m.', files[i].replace(workDir, '').replace(/^\//, ''), mustacheFile.replace(workDir, '').replace(/^\//, ''));
 
     // Clean up.
     fs.unlinkSync(files[i]);
@@ -154,12 +154,12 @@ gulp.task('tpl-compile:copy', function (cb) {
     // Delete empty lines.
     pubContent = pubContent.replace(/^\s*$\n/gm, '');
 
-    let destFile = `${rootDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}.${data.tpl_compile_ext.trim()}`;
+    let destFile = `${workDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}.${data.tpl_compile_ext.trim()}`;
 
     fs.writeFileSync(destFile, pubContent);
 
     // Log to console.
-    utils.log('Template \x1b[36m%s\x1b[0m compiled.', destFile.replace(rootDir, '').replace(/^\//, ''));
+    utils.log('Template \x1b[36m%s\x1b[0m compiled.', destFile.replace(workDir, '').replace(/^\//, ''));
   }
   cb();
 });
