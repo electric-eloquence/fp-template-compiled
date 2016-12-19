@@ -1,6 +1,6 @@
 {
   "name": "fp-tpl-compile",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Exporter of compiled templates - extension for Fepper",
   "main": "tpl-compile~extend.js",
   "repository": {
