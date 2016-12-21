@@ -18,7 +18,7 @@ const utils = require(`${appDir}/core/lib/utils`);
 const dataDir = utils.pathResolve(conf.ui.paths.source.data);
 const dataFile = `${dataDir}/_data.json`;
 const patternDirPub = utils.pathResolve(conf.ui.paths.public.patterns);
-const patternDirSrc = utils.pathResolve(conf.ui.paths.source.patterns);
+const patternDirSrc = utils.pathResolve(conf.ui.paths.source.patterns, true);
 const tplDir = utils.pathResolve(conf.ui.paths.source.templates);
 
 function tplEncodeHbs(content) {
