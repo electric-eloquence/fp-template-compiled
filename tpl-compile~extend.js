@@ -1,9 +1,5 @@
 'use strict';
 
-const appDir = global.appDir;
-const conf = global.conf;
-const workDir = global.workDir;
-
 const beautify = require('js-beautify').html;
 const fs = require('fs-extra');
 const glob = require('glob');
@@ -12,6 +8,10 @@ const path = require('path');
 const RcLoader = require('rcloader');
 const runSequence = require('run-sequence');
 const yaml = require('js-yaml');
+
+const appDir = global.appDir;
+const conf = global.conf;
+const workDir = global.workDir;
 
 const utils = require(`${appDir}/core/lib/utils`);
 
