@@ -22,16 +22,16 @@ const patternDirSrc = utils.pathResolve(conf.ui.paths.source.patterns);
 const tplDir = utils.pathResolve(conf.ui.paths.source.templates);
 
 function tplEncodeHbs(content) {
-  content = content.replace(/\{\{/g, '{{{ %7B');
-  content = content.replace(/(\})?\}\}/g, '$1%7D }}}');
-  content = content.replace(/(\{\{ %7B)/g, '$1 }}}');
-  content = content.replace(/(%7D \}\})/g, '{{{ $1');
+  content = content.replace(/\{\{/g, '{{{<%');
+  content = content.replace(/(\})?\}\}/g, '$1%>}}}');
+  content = content.replace(/(\{\{\{<%)/g, '$1}}}');
+  content = content.replace(/(%>\}\}\})/g, '{{{$1');
 
   return content;
 }
 
 function writeJsonHbs(jsonFile) {
-  fs.writeFileSync(jsonFile, '{\n  "%7B": "{{",\n  "%7D": "}}"\n}\n');
+  fs.writeFileSync(jsonFile, '{\n  "<%": "{{",\n  "%>": "}}"\n}\n');
 }
 
 function tplEncode(tplType, argv) {
@@ -90,14 +90,14 @@ function tplEncode(tplType, argv) {
 
     // Add key/values to _data.json if they are not there.
     // These hide the encoded tags in all views except 03-templates.
-    if (!dataObj['%7B']) {
-      dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "%7B": "<!--"\n}$1');
+    if (!dataObj['<%']) {
+      dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "<%": "<!--"\n}$1');
       dataObj = JSON.parse(dataStr);
       fs.writeFileSync(dataFile, dataStr);
     }
 
-    if (!dataObj['%7D']) {
-      dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "%7D": "-->"\n}$1');
+    if (!dataObj['%>']) {
+      dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "%>": "-->"\n}$1');
       dataObj = JSON.parse(dataStr);
       fs.writeFileSync(dataFile, dataStr);
     }
