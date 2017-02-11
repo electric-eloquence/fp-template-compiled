@@ -25,12 +25,14 @@ unlikely that there will ever be one-to-one compatibility between other systems
 and Fepper, the other templates' tags must be encoded for them to be usuable in 
 Fepper.
 
-Stashes (the symbols used to demarcate tags) must be escaped by URL-encoding the 
-type of stash (opening or closing) and then surrounding that code in triple 
-curly braces. They can then be replaced with normal data values in Fepper. In 
-`source/_patterns/03-templates`, "%7B" and "%7D" should always evaluate to 
-opening and closing stashes respectively. Outside that directory, they should 
-evaluate to "<\!--" and "--\>" so they can be ignored by humans viewing the UI.
+Stashes (the symbols used to demarcate tags) must be escaped by replacing them 
+with a different delimiter (ERB tags, as exemplified in the 
+[Mustache docs](https://mustache.github.io/mustache.5.html#Set-Delimiter)) 
+and then surrounding them in triple curly braces. They can then be replaced with 
+normal data values in Fepper. In `source/_patterns/03-templates`, "<%" and "%>" 
+should always evaluate to opening and closing stashes respectively. Outside that 
+directory, they should evaluate to "<\!--" and "--\>" so they can be ignored by 
+humans viewing the UI.
 
 `fp tpl-encode:hbs` automates this. First, the backend template file must be 
 copied to the directory where you wish to import it. (It must be within 
@@ -41,14 +43,10 @@ by the backend template file.
 encoded tags both within the Fepper UI, and for export by `fp tpl-compile`. One 
 gotcha to be aware of is that underscore-prefixed hidden files should not have a 
 corresponding .json file. Underscore-prefixed .json will get compiled into 
-`source/_data/data.json`, possibly overwriting values for "%7B" and "%7D".
+`source/_data/data.json`, possibly overwriting values for "<%" and "%>".
 
 `fp tpl-encode:hbs` only works with Handlebars at the moment, but will likely be 
 expanded to process more templating languages.
-
-"%7B" and "%7D" literally decode to "{" and "}". The literal translations of 
-the codes are unimportant. They are meant to signify the opening and closing of 
-a stash, and are ultimately language agnostic.
 
 The output HTML will be formatted by [js-beautify](https://github.com/beautify-web/js-beautify). 
 To override the default configurations, add a .jsbeautifyrc file at the root of 
