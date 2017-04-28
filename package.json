@@ -1,7 +1,7 @@
 {
   "name": "fp-tpl-compile",
   "version": "0.3.4",
-  "description": "Template Compiler extension for Fepper",
+  "description": "Template Compile extension for Fepper",
   "main": "tpl-compile~extend.js",
   "repository": {
     "type": "git",
