@@ -1,4 +1,4 @@
-# Template Compiler extension for Fepper
+# Template Compile extension for Fepper
 ## Exports fully recursed templates in the backend's templating language
 
 ### Commands
