@@ -1,4 +1,5 @@
-# Exporter of compiled templates - extension for Fepper
+# Template Compiler extension for Fepper
+## Exports fully recursed templates in the backend's templating language
 
 ### Commands
 ```shell
