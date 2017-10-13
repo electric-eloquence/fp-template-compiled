@@ -7,13 +7,6 @@
     "type": "git",
     "url": "git+https://github.com/electric-eloquence/fp-tpl-compile.git"
   },
-  "license": "MIT",
-  "engines": {
-    "node": ">=8.5.0"
-  },
-  "dependencies": {
-    "yargs": "^5.0.0"
-  },
   "keywords": [
     "atomic",
     "component",
@@ -31,5 +24,12 @@
     "prototyper",
     "prototyping",
     "template"
-  ]
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.5.0"
+  },
+  "dependencies": {
+    "yargs": "^5.0.0"
+  }
 }
