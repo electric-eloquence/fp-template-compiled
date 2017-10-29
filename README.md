@@ -59,7 +59,7 @@ Fepper.
 
 03-templates/example.mustache
 
-```html+django
+```handlebars
 <h1>{{{<%}}} title {{{%>}}}</h1>
 {{> 00-elements/paragraph }}
 <footer>{{{<%}}}{ footer }{{{%>}}}</footer>
@@ -67,7 +67,7 @@ Fepper.
 
 00-elements/paragraph.mustache
 
-```html+django
+```handlebars
 <p>{{{<%}}} content {{{%>}}}</p>
 ```
 
