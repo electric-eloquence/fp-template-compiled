@@ -3,6 +3,7 @@
 ## Export fully recursed templates in your backend's templating language.
 
 ### Commands
+
 ```shell
 fp tpl-compile
 fp tpl-encode:hbs -e "extension"
@@ -55,6 +56,7 @@ To override the default configurations, add a .jsbeautifyrc file at the root of
 Fepper.
 
 ### Example
+
 03-templates/example.mustache
 
 ```
