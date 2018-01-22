@@ -21,7 +21,8 @@ const patternDirPub = utils.pathResolve(conf.ui.paths.public.patterns);
 const patternDirSrc = utils.pathResolve(conf.ui.paths.source.patterns);
 const tplDir = utils.pathResolve(conf.ui.paths.source.templates);
 
-function tplEncodeHbs(content) {
+function tplEncodeHbs(content_) {
+  let content = content_;
   content = content.replace(/\{\{/g, '{{{<%');
   content = content.replace(/(\})?\}\}/g, '$1%>}}}');
   content = content.replace(/(\{\{\{<%)/g, '$1}}}');
@@ -87,7 +88,10 @@ function tplEncode(tplType, argv) {
     }
 
     // Crucial part is done. Log to console.
-    utils.log('%s encoded to %s.', files[i].replace(workDir, '').replace(/^\//, ''), mustacheFile.replace(workDir, '').replace(/^\//, ''));
+    utils.log(
+      '%s encoded to %s.', files[i].replace(workDir, '').replace(/^\//, ''),
+      mustacheFile.replace(workDir, '').replace(/^\//, '')
+    );
 
     // Clean up.
     fs.unlinkSync(files[i]);
@@ -158,7 +162,8 @@ gulp.task('tpl-compile:copy', function (cb) {
     // Delete empty lines.
     pubContent = pubContent.replace(/^\s*$\n/gm, '');
 
-    let destFile = `${workDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}${data.tpl_compile_ext.trim()}`;
+    let destFile = `${workDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}`;
+    destFile += data.tpl_compile_ext.trim();
 
     fs.writeFileSync(destFile, pubContent);
 
