@@ -40,16 +40,18 @@ function tplEncode(tplType, argv) {
     return;
   }
 
-  var ext;
+  let ext;
+
   if (argv.e[0] === '.') {
-    ext = argv.e.slice(1);
-  }
-  else {
     ext = argv.e;
   }
+  else {
+    ext = `.${argv.e}`;
+  }
 
-  var dataObj = {};
-  var dataStr = '';
+  let dataObj = {};
+  let dataStr = '';
+
   try {
     dataObj = fs.readJsonSync(dataFile);
     dataStr = fs.readFileSync(dataFile, conf.enc);
@@ -58,7 +60,8 @@ function tplEncode(tplType, argv) {
     // Fail gracefully. A correctly formed dataFile is not crucial for this.
   }
 
-  var files = glob.sync(`${patternDirSrc}/**/*.${ext}`) || [];
+  const files = glob.sync(`${patternDirSrc}/**/*${ext}`) || [];
+
   for (let i = 0; i < files.length; i++) {
     let content = fs.readFileSync(files[i], conf.enc);
 
@@ -69,9 +72,10 @@ function tplEncode(tplType, argv) {
         break;
     }
 
-    let regex = new RegExp(`${ext}$`);
-    let mustacheFile = files[i].replace(regex, 'mustache');
-    let jsonFile = files[i].replace(regex, 'json');
+    const regex = new RegExp(`${ext}$`);
+
+    let mustacheFile = files[i].replace(regex, '.mustache');
+    let jsonFile = files[i].replace(regex, '.json');
 
     fs.writeFileSync(mustacheFile, content);
 
@@ -105,10 +109,10 @@ function tplEncode(tplType, argv) {
 }
 
 gulp.task('tpl-compile:copy', function (cb) {
-  var files = glob.sync(`${tplDir}/**/*.yml`) || [];
+  const files = glob.sync(`${tplDir}/**/*.yml`) || [];
   // Load js-beautify with options configured in .jsbeautifyrc
-  var rcLoader = new RcLoader('.jsbeautifyrc', {});
-  var rcOpts = rcLoader.for(appDir, {lookup: true});
+  const rcLoader = new RcLoader('.jsbeautifyrc', {});
+  const rcOpts = rcLoader.for(appDir, {lookup: true});
 
   for (let i = 0; i < files.length; i++) {
     let data = {};
@@ -154,7 +158,7 @@ gulp.task('tpl-compile:copy', function (cb) {
     // Delete empty lines.
     pubContent = pubContent.replace(/^\s*$\n/gm, '');
 
-    let destFile = `${workDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}.${data.tpl_compile_ext.trim()}`;
+    let destFile = `${workDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}${data.tpl_compile_ext.trim()}`;
 
     fs.writeFileSync(destFile, pubContent);
 
