@@ -162,8 +162,12 @@ gulp.task('tpl-compile:copy', function (cb) {
     // Delete empty lines.
     pubContent = pubContent.replace(/^\s*$\n/gm, '');
 
+    // Prepare extension.
+    const tplCompileExt = utils.extCheck(data.tpl_compile_ext);
+
+    // Build path to destFile.
     let destFile = `${workDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}`;
-    destFile += data.tpl_compile_ext.trim();
+    destFile += tplCompileExt;
 
     fs.writeFileSync(destFile, pubContent);
 
