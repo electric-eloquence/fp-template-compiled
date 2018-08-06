@@ -186,7 +186,7 @@ gulp.task('tpl-compile', function (cb) {
 });
 
 gulp.task('tpl-encode:hbs', function (cb) {
-  let argv = require('yargs')(process.argv).argv;
+  const argv = require('yargs').argv;
 
   tplEncode('hbs', argv);
   cb();
