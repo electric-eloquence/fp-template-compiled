@@ -13,7 +13,7 @@ const yaml = require('js-yaml');
 
 const appDir = global.appDir;
 const conf = global.conf;
-const workDir = global.workDir;
+const rootDir = global.rootDir;
 
 const dataDir = conf.ui.paths.source.data;
 const dataFile = `${dataDir}/_data.json`;
@@ -89,8 +89,8 @@ function tplEncode(tplType, argv) {
 
     // Crucial part is done. Log to console.
     utils.log(
-      '%s encoded to %s.', files[i].replace(workDir, '').replace(/^\//, ''),
-      mustacheFile.replace(workDir, '').replace(/^\//, '')
+      '%s encoded to %s.', files[i].replace(rootDir, '').replace(/^\//, ''),
+      mustacheFile.replace(rootDir, '').replace(/^\//, '')
     );
 
     // Clean up.
@@ -166,13 +166,13 @@ gulp.task('tpl-compile:copy', function (cb) {
     const tplCompileExt = utils.extNormalize(data.tpl_compile_ext);
 
     // Build path to destFile.
-    let destFile = `${workDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}`;
+    let destFile = `${rootDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}`;
     destFile += tplCompileExt;
 
     fs.writeFileSync(destFile, pubContent);
 
     // Log to console.
-    utils.log('Template %s compiled.', destFile.replace(workDir, '').replace(/^\//, ''));
+    utils.log('Template %s compiled.', destFile.replace(rootDir, '').replace(/^\//, ''));
   }
   cb();
 });
