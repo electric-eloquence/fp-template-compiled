@@ -1,25 +1,25 @@
 'use strict';
 
+const path = require('path');
+
 const beautify = require('js-beautify').html;
 const fs = require('fs-extra');
 const glob = require('glob');
 const gulp = require('gulp');
-const path = require('path');
 const RcLoader = require('rcloader');
 const runSequence = require('run-sequence');
+const utils = require('fepper-utils');
 const yaml = require('js-yaml');
 
 const appDir = global.appDir;
 const conf = global.conf;
 const workDir = global.workDir;
 
-const utils = require(`${appDir}/core/lib/utils`);
-
-const dataDir = utils.pathResolve(conf.ui.paths.source.data);
+const dataDir = conf.ui.paths.source.data;
 const dataFile = `${dataDir}/_data.json`;
-const patternDirPub = utils.pathResolve(conf.ui.paths.public.patterns);
-const patternDirSrc = utils.pathResolve(conf.ui.paths.source.patterns);
-const tplDir = utils.pathResolve(conf.ui.paths.source.templates);
+const patternDirPub = conf.ui.paths.public.patterns;
+const patternDirSrc = conf.ui.paths.source.patterns;
+const tplDir = conf.ui.paths.source.templates;
 
 function tplEncodeHbs(content_) {
   let content = content_;
@@ -163,7 +163,7 @@ gulp.task('tpl-compile:copy', function (cb) {
     pubContent = pubContent.replace(/^\s*$\n/gm, '');
 
     // Prepare extension.
-    const tplCompileExt = utils.extCheck(data.tpl_compile_ext);
+    const tplCompileExt = utils.extNormalize(data.tpl_compile_ext);
 
     // Build path to destFile.
     let destFile = `${workDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}`;
