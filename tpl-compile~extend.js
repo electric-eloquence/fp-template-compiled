@@ -114,9 +114,18 @@ function tplEncode(tplType, argv) {
 
 gulp.task('tpl-compile:copy', function (cb) {
   const files = glob.sync(`${tplDir}/**/*.yml`) || [];
-  // Load js-beautify with options configured in .jsbeautifyrc
-  const rcLoader = new RcLoader('.jsbeautifyrc', {});
-  const rcOpts = rcLoader.for(appDir, {lookup: true});
+  const rcFile = '.jsbeautifyrc';
+  const rcLoader = new RcLoader(rcFile);
+  let rcOpts;
+
+  // First, try to load .jsbeautifyrc with user-configurable options.
+  if (fs.existsSync(`${rootDir}/${rcFile}`)) {
+    rcOpts = rcLoader.for(`${rootDir}/${rcFile}`, {lookup: false});
+  }
+  // Else, load the .jsbeautifyrc that ships with fepper-npm.
+  else {
+    rcOpts = rcLoader.for(`${appDir}/${rcFile}`, {lookup: false});
+  }
 
   for (let i = 0; i < files.length; i++) {
     let data = {};
@@ -156,11 +165,21 @@ gulp.task('tpl-compile:copy', function (cb) {
     let pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
     let pubContent = fs.readFileSync(pubFile, conf.enc);
 
-    // Load .jsbeautifyrc and beautify html
-    pubContent = beautify(pubContent, rcOpts) + '\n';
+    // Prep for beautifcation.
+    // In order for js-beautify's to indent Handlebars correctly, any space between control characters #, ^, and /, and
+    // the variable name must be removed. However, we want to add the spaces back later.
+    // \u00A0 is &nbsp; a space character not enterable by keyboard, and therefore a good delimiter.
+    pubContent = pubContent.replace(/(\{\{#)(\s+)(\S+)/g, '$1$3$2\u00A0');
+    pubContent = pubContent.replace(/(\{\{^)(\s+)(\S+)/g, '$1$3$2\u00A0');
+    pubContent = pubContent.replace(/(\{\{\/)(\s+)(\S+)/g, '$1$3$2\u00A0');
 
-    // Delete empty lines.
-    pubContent = pubContent.replace(/^\s*$\n/gm, '');
+    // Load .jsbeautifyrc and beautify html.
+    pubContent = beautify(pubContent, rcOpts);
+
+    // Adding back removed spaces to retain the look intended by the authors.
+    pubContent = pubContent.replace(/(\{\{#)(\S+)(\s+)\u00A0/g, '$1$3$2');
+    pubContent = pubContent.replace(/(\{\{\^)(\S+)(\s+)\u00A0/g, '$1$3$2');
+    pubContent = pubContent.replace(/(\{\{\/)(\S+)(\s+)\u00A0/g, '$1$3$2');
 
     // Prepare extension.
     const tplCompileExt = utils.extNormalize(data.tpl_compile_ext);
