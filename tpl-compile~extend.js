@@ -36,16 +36,16 @@ function writeJsonHbs(jsonFile) {
 }
 
 function tplEncode(tplType, argv) {
-  if (!argv || !argv.e) {
-    utils.error('Error: need an -e argument to identify your source files by extension!');
-    return;
-  }
-
   let ext;
 
-  if (argv.e[0] === '.') {
+  if (!argv || !argv.e) {
+    ext = `.${tplType}`;
+  }
+  /* istanbul ignore next */
+  else if (argv.e[0] === '.') {
     ext = argv.e;
   }
+  /* istanbul ignore next */
   else {
     ext = `.${argv.e}`;
   }
@@ -99,14 +99,40 @@ function tplEncode(tplType, argv) {
     // Add key/values to _data.json if they are not there.
     // These hide the encoded tags in all views except 03-templates.
     if (!dataObj['<%']) {
-      dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "<%": "<!--"\n}$1');
-      dataObj = JSON.parse(dataStr);
+      if (Object.keys(dataObj).length) {
+        /* istanbul ignore next */
+        dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "<%": "<!--"\n}$1');
+      }
+      else {
+        dataStr = '{\n  "<%": "<!--"\n}\n';
+      }
+
+      try {
+        dataObj = JSON.parse(dataStr);
+      }
+      catch (err) {
+        /* istanbul ignore next */
+        utils.error(err);
+        /* istanbul ignore next */
+        return;
+      }
+
       fs.writeFileSync(dataFile, dataStr);
     }
 
     if (!dataObj['%>']) {
       dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "%>": "-->"\n}$1');
-      dataObj = JSON.parse(dataStr);
+
+      try {
+        dataObj = JSON.parse(dataStr);
+      }
+      catch (err) {
+        /* istanbul ignore next */
+        utils.error(err);
+        /* istanbul ignore next */
+        return;
+      }
+
       fs.writeFileSync(dataFile, dataStr);
     }
   }
@@ -119,6 +145,7 @@ gulp.task('tpl-compile:copy', function (cb) {
   let rcOpts;
 
   // First, try to load .jsbeautifyrc with user-configurable options.
+  /* istanbul ignore if */
   if (fs.existsSync(`${rootDir}/${rcFile}`)) {
     rcOpts = rcLoader.for(`${rootDir}/${rcFile}`, {lookup: false});
   }
@@ -138,11 +165,14 @@ gulp.task('tpl-compile:copy', function (cb) {
       stats = fs.statSync(files[i]);
     }
     catch (err) {
+      /* istanbul ignore next */
       utils.error(err);
+      /* istanbul ignore next */
       continue;
     }
 
     // Only process valid files.
+    /* istanbul ignore if */
     if (!stats || !stats.isFile()) {
       continue;
     }
@@ -152,10 +182,13 @@ gulp.task('tpl-compile:copy', function (cb) {
       data = yaml.safeLoad(yml);
     }
     catch (err) {
+      /* istanbul ignore next */
       utils.error(err);
+      /* istanbul ignore next */
       continue;
     }
 
+    /* istanbul ignore if */
     if (!data.tpl_compile_dir || !data.tpl_compile_ext) {
       continue;
     }
