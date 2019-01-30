@@ -176,7 +176,7 @@ gulp.task('tpl-compile:copy', function (cb) {
     // Load .jsbeautifyrc and beautify html.
     pubContent = beautify(pubContent, rcOpts);
 
-    // Adding back removed spaces to retain the look intended by the authors.
+    // Add back removed spaces to retain the look intended by the author.
     pubContent = pubContent.replace(/(\{\{#)(\S+)(\s+)\u00A0/g, '$1$3$2');
     pubContent = pubContent.replace(/(\{\{\^)(\S+)(\s+)\u00A0/g, '$1$3$2');
     pubContent = pubContent.replace(/(\{\{\/)(\S+)(\s+)\u00A0/g, '$1$3$2');
