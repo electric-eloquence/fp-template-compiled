@@ -57,9 +57,9 @@ root of Fepper.
 ##### source/\_patterns/03-templates/example.mustache:
 
 ```handlebars
-<h1>{{{<%}}} title {{{%>}}}</h1>
+<h1>{{{<%}}}title{{{%>}}}</h1>
 {{> 00-elements/paragraph }}
-<footer>{{{<%}}}{ footer }{{{%>}}}</footer>
+<footer>{{{<%}}}{footer}{{{%>}}}</footer>
 ```
 
 ##### source/\_patterns/03-templates/example.json:
@@ -81,7 +81,7 @@ tpl_compile_ext: .hbs
 ##### source/\_patterns/00-elements/paragraph.mustache:
 
 ```handlebars
-<p>{{{<%}}} content {{{%>}}}{{ placeholder_content }}</p>
+<p>{{{<%}}}backend_content{{{%>}}}{{ placeholder_content }}</p>
 ```
 
 ##### source/\_patterns/00-elements/paragraph.json:
@@ -104,7 +104,7 @@ tpl_compile_ext: .hbs
 ##### Compiles to backend/docroot/templates/example.hbs:
 
 ```handlebars
-<h1>{{ title }}</h1>
-<p>{{ content }}</p>
-<footer>{{{ footer }}}</footer>
+<h1>{{title}}</h1>
+<p>{{backend_content}}</p>
+<footer>{{{footer}}}</footer>
 ```

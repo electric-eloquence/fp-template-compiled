@@ -1,0 +1,168 @@
+<!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/patternlab-pattern.css" media="all">
+<script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+<script src="../../annotations/annotations.js"></script>
+<!-- End Pattern Lab -->
+<!-- View All -->
+<link rel="stylesheet" href="../../_styles/pattern-scaffolding.css" media="all">
+<div class="sg-main" role="main">
+  
+  <!-- Patterns -->
+  <div id="sg-patterns">
+    
+      <div class="sg-pattern-category">
+        <h2 class="sg-pattern-category-title sg-pattern-type">
+          <a
+            href="../../patterns/03-templates/index.html"
+            class="sg-pattern-link"
+            title="Link to Type"
+          >Templates</a>
+        </h2>
+      </div><!--end sg-pattern-category-->
+    
+      <div id="templates-tpl-compile-partial" class="sg-pattern">
+        <div class="sg-pattern-head">
+          <h4 class="sg-pattern-title">
+            <a
+              href="../../patterns/03-templates-tpl-compile-partial/03-templates-tpl-compile-partial.html"
+              class="sg-pattern-link"
+              data-patternpartial="templates-tpl-compile-partial"
+              title="Link to Pattern"
+            >Tpl Compile Partial</a>
+          </h4>
+          <div class="sg-pattern-info-toggles">
+            <a
+              href="#"
+              id="sg-pattern-toggle-annotations-templates-tpl-compile-partial"
+              class="sg-pattern-info-toggle sg-pattern-toggle-annotations"
+              data-patternpartial="templates-tpl-compile-partial"
+              title="View Pattern Annotations"
+            >&#x1F4C4;</a>
+            <a
+              href="#"
+              id="sg-pattern-toggle-code-templates-tpl-compile-partial"
+              class="sg-pattern-info-toggle sg-pattern-toggle-code"
+              data-patternpartial="templates-tpl-compile-partial"
+              title="View Pattern Code"
+            >&#x276E;&#x276F;</a>
+          </div>
+        </div>
+        <div class="sg-pattern-example cf">
+          <!--#if bar-->
+  <p><!--backend_content--></p>
+<!--/if-->
+
+        </div>
+        <script type="text/json" id="sg-pattern-data-templates-tpl-compile-partial" class="sg-pattern-data">
+          {"lineage":[],"lineageExists":false,"lineageR":[{"lineagePattern":"templates-tpl-compile","lineagePath":"patterns/03-templates-tpl-compile/03-templates-tpl-compile.html","isHidden":false}],"lineageRExists":true,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile Partial","patternPartial":"templates-tpl-compile-partial","patternState":""}
+        </script>
+      </div><!--end .sg-pattern-->
+    
+      <div id="templates-tpl-compile" class="sg-pattern">
+        <div class="sg-pattern-head">
+          <h4 class="sg-pattern-title">
+            <a
+              href="../../patterns/03-templates-tpl-compile/03-templates-tpl-compile.html"
+              class="sg-pattern-link"
+              data-patternpartial="templates-tpl-compile"
+              title="Link to Pattern"
+            >Tpl Compile</a>
+          </h4>
+          <div class="sg-pattern-info-toggles">
+            <a
+              href="#"
+              id="sg-pattern-toggle-annotations-templates-tpl-compile"
+              class="sg-pattern-info-toggle sg-pattern-toggle-annotations"
+              data-patternpartial="templates-tpl-compile"
+              title="View Pattern Annotations"
+            >&#x1F4C4;</a>
+            <a
+              href="#"
+              id="sg-pattern-toggle-code-templates-tpl-compile"
+              class="sg-pattern-info-toggle sg-pattern-toggle-code"
+              data-patternpartial="templates-tpl-compile"
+              title="View Pattern Code"
+            >&#x276E;&#x276F;</a>
+          </div>
+        </div>
+        <div class="sg-pattern-example cf">
+          <h1>{{title}}</h1>
+{{#each foo}}
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+{{/each}}
+<footer>{{{footer}}}</footer>
+
+        </div>
+        <script type="text/json" id="sg-pattern-data-templates-tpl-compile" class="sg-pattern-data">
+          {"lineage":[{"lineagePattern":"templates-tpl-compile-partial","lineagePath":"patterns/03-templates-tpl-compile-partial/03-templates-tpl-compile-partial.html","isHidden":false}],"lineageExists":true,"lineageR":[],"lineageRExists":false,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile","patternPartial":"templates-tpl-compile","patternState":""}
+        </script>
+      </div><!--end .sg-pattern-->
+    
+      <div id="templates-tpl-encode" class="sg-pattern">
+        <div class="sg-pattern-head">
+          <h4 class="sg-pattern-title">
+            <a
+              href="../../patterns/03-templates-tpl-encode/03-templates-tpl-encode.html"
+              class="sg-pattern-link"
+              data-patternpartial="templates-tpl-encode"
+              title="Link to Pattern"
+            >Tpl Encode</a>
+          </h4>
+          <div class="sg-pattern-info-toggles">
+            <a
+              href="#"
+              id="sg-pattern-toggle-annotations-templates-tpl-encode"
+              class="sg-pattern-info-toggle sg-pattern-toggle-annotations"
+              data-patternpartial="templates-tpl-encode"
+              title="View Pattern Annotations"
+            >&#x1F4C4;</a>
+            <a
+              href="#"
+              id="sg-pattern-toggle-code-templates-tpl-encode"
+              class="sg-pattern-info-toggle sg-pattern-toggle-code"
+              data-patternpartial="templates-tpl-encode"
+              title="View Pattern Code"
+            >&#x276E;&#x276F;</a>
+          </div>
+        </div>
+        <div class="sg-pattern-example cf">
+          <h1>{{title}}</h1>
+{{#each foo}}
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+{{/each}}
+<footer>{{{footer}}}</footer>
+
+        </div>
+        <script type="text/json" id="sg-pattern-data-templates-tpl-encode" class="sg-pattern-data">
+          {"lineage":[],"lineageExists":false,"lineageR":[],"lineageRExists":false,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Encode","patternPartial":"templates-tpl-encode","patternState":""}
+        </script>
+      </div><!--end .sg-pattern-->
+    
+  </div> <!--end #sg-patterns-->
+
+</div><!--end .sg-main-->
+<!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
+  {"patternPartial":"viewall-templates"}
+</script>
+
+<script>
+  // Handle injection of items from Node.
+  
+  
+  window.patternPartial = '';
+  window.patternState = '';
+  window.portReloader = '35729';
+  window.portServer = '3000';
+</script>
+
+<script src="../../node_modules/fepper-ui/scripts/ui-functions.js"></script>
+<script src="../../node_modules/fepper-ui/scripts/annotations-pattern.js"></script>
+<script src="../../node_modules/fepper-ui/scripts/code-pattern.js"></script>
+<script src="../../node_modules/fepper-ui/scripts/pattern-configurer.js"></script>
+<script src="../../node_modules/fepper-ui/scripts/patternlab-pattern.js"></script>
+<!-- End Pattern Lab -->
