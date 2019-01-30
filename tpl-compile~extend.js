@@ -127,6 +127,8 @@ gulp.task('tpl-compile:copy', function (cb) {
     rcOpts = rcLoader.for(`${appDir}/${rcFile}`, {lookup: false});
   }
 
+  rcOpts.indent_handlebars = true;
+
   for (let i = 0; i < files.length; i++) {
     let data = {};
     let stats = null;
@@ -164,6 +166,9 @@ gulp.task('tpl-compile:copy', function (cb) {
     pubPattern = pubPattern.replace(/~/g, '-');
     let pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
     let pubContent = fs.readFileSync(pubFile, conf.enc);
+
+    // Delete empty lines.
+    pubContent = pubContent.replace(/^\s*$\n/gm, '');
 
     // Prep for beautifcation.
     // In order for js-beautify's to indent Handlebars correctly, any space between control characters #, ^, and /, and
