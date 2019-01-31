@@ -30,41 +30,46 @@ rendering, but targets the tag delimiters instead of the entire tag. You are
 free to use any alternate delimiter, but we recommend ERB notation, as 
 exemplified in the 
 <a href="https://mustache.github.io/mustache.5.html#Set-Delimiter" target="_blank">Mustache docs</a>. 
-Wrap them in triple curly braces and use them as opening and closing 
-delimiters. Use these wrapped delimiters to surround tags destined for the 
-backend. In the example of ERB alternate tags and Handlebars backend tags, the 
-`.json` file specific to the Fepper template should declare `<%` and `%>` keys 
-and have their values be `{{` and `}}` respectively. In the global `_data.json` 
-file, their values should be `<!--` and `-->` so they can be ignored by humans 
-viewing the UI.
+Wrap them in triple curly braces and use them as opening and closing delimiters. 
+Use these wrapped delimiters to surround tags destined for the backend. In the 
+example of ERB alternate delimiters and regular `{{` and `}}` delimiters for the 
+backend, the `.json` file specific to the Fepper template must declare `<%` and 
+`%>` keys and have their values be `{{` and `}}` respectively. In 
+`source/_data/_data.json` file, their values should be `<!--` and `-->` so they 
+can be ignored by humans viewing the UI.
 
 Each template that is to be compiled requires a `.json` file with alternate and 
 backend delimiter declarations. While this may appear to be unnecessarily 
 repetitive, it leverages normal Fepper rendering, instead of hacking around it. 
 It also avoids the chaos that global configurations for opening and closing 
-delimiters for alternate and backend tags would instill. (Yes, four 
-configurations. Yes, their keys would be long and unguessable.)
+delimiters for alternate and backend tags would instill. (Yes, that's four 
+configurations. Yes, their keys would be long and/or unguessable.)
 
 The `tpl_compile_dir` and `tpl_compile_ext` preferences need to be configured in 
 `pref.yml` or the template's `.yml` file. In this way, `fp tpl-compile` will 
-know where to write, and what extension to give.
+know where to write, and what extension to use.
 
 #### `fp tpl-encode:hbs -e .ext`
 
-`fp tpl-encode:hbs` works in the reverse direction. It translates backend 
-templates to Fepper templates. Assuming the backend template is fully fleshed 
-out, copy it to `source/patterns/03-templates`. Do not change its name. Then, 
-run the command with the extension used by the backend. The backend template in 
+`fp tpl-encode:hbs` works in the reverse direction. It encodes backend templates 
+for use as Fepper templates, which can in turn, be compiled back to the backend. 
+Assuming the backend template is fully fleshed out, copy it to 
+`source/patterns/03-templates`. Do not change its name. Then, run the command 
+with the extension used by the backend. The copied backend template in 
 `source/patterns/03-templates` will be replaced by a `.mustache` file, 
 accompanied by a `.json` file.
 
-The `.json` file will declare the data schema necessary to correctly render the 
-encoded tags both within the Fepper UI, and for export by `fp tpl-compile`. One 
-gotcha to be aware of is that underscore-prefixed hidden files should not have a 
-corresponding .json file. Underscore-prefixed `.json` files will get compiled 
-into `source/_data/data.json`, possibly overwriting values for `<%` and `%>`.
+The `.json` file will declare ERB notation for alternate delimiters. The encoder 
+will also add the `"<%": "<!--"` and `"%>": "-->"` key-value pairs to 
+`source/_data/_data.json` if they aren't there already.
 
-`fp tpl-encode:hbs` encodes any backend language with tags delimited with `{{` and `}}`.
+One gotcha to be aware of is that underscore-prefixed hidden files must not have 
+a corresponding `.json` file. Underscore-prefixed `.json` files will get 
+compiled into `source/_data/data.json`, possibly overwriting values for `<%` and 
+`%>`.
+
+`fp tpl-encode:hbs` encodes any backend language with tags delimited by `{{` and 
+`}}`.
 
 The output HTML will be formatted by 
 <a href="https://github.com/beautify-web/js-beautify" target="_blank">js-beautify</a>. 
