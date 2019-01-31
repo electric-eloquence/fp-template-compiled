@@ -31,15 +31,23 @@ free to use any alternate delimiter, but we recommend ERB notation, as
 exemplified in the 
 <a href="https://mustache.github.io/mustache.5.html#Set-Delimiter" target="_blank">Mustache docs</a>. 
 Wrap them in triple curly braces and use them as opening and closing 
-delimiters surrounding tags destined for the backend. In the example of ERB 
-alternate tags and Handlebars as the backend language, the `.json` file specific 
-to the Fepper template should declare `<%` and `%>` keys and have them evaluate 
-to `{{` and `}}` respectively. In the global `_data.json` file, they should 
-evaluate to `<!--` and `-->` so they can be ignored by humans viewing the UI.
+delimiters. Use these wrapped delimiters to surround tags destined for the 
+backend. In the example of ERB alternate tags and Handlebars backend tags, the 
+`.json` file specific to the Fepper template should declare `<%` and `%>` keys 
+and have their values be `{{` and `}}` respectively. In the global `_data.json` 
+file, their values should be `<!--` and `-->` so they can be ignored by humans 
+viewing the UI.
+
+Each template that is to be compiled requires a `.json` file with alternate and 
+backend delimiter declarations. While this may appear to be unnecessarily 
+repetitive, it leverages normal Fepper rendering, instead of hacking around it. 
+It also avoids the chaos that global configurations for opening and closing 
+delimiters for alternate and backend tags would instill. (Yes, four 
+configurations. Yes, their keys would be long and unguessable.)
 
 The `tpl_compile_dir` and `tpl_compile_ext` preferences need to be configured in 
-`pref.yml` or the template's `.yml` file, so `fp tpl-compile` knows 
-where to write, and what extension to append to the filename.
+`pref.yml` or the template's `.yml` file. In this way, `fp tpl-compile` will 
+know where to write, and what extension to give.
 
 #### `fp tpl-encode:hbs -e .ext`
 
@@ -56,7 +64,7 @@ gotcha to be aware of is that underscore-prefixed hidden files should not have a
 corresponding .json file. Underscore-prefixed `.json` files will get compiled 
 into `source/_data/data.json`, possibly overwriting values for `<%` and `%>`.
 
-`fp tpl-encode:hbs` encodes any language with tags delimited with `{{` and `}}`.
+`fp tpl-encode:hbs` encodes any backend language with tags delimited with `{{` and `}}`.
 
 The output HTML will be formatted by 
 <a href="https://github.com/beautify-web/js-beautify" target="_blank">js-beautify</a>. 

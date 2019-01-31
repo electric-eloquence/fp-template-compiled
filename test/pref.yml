@@ -56,7 +56,10 @@ backend:
     #- docroot/js
 
 templater:
-  # By default, the Templater will not retain untranslated Mustache tags when
-  # translating to the backend's templating language. However, if the backend's
-  # templating language happens to be Mustache, set this value to true.
+  # By default, the Templater will not retain untranslated Feplet tags when
+  # translating to the backend's template language. However, if the backend's
+  # template language happens to be Feplet or Mustache, set this value to true.
   retain_mustache: false
+
+tpl_compile_dir: docroot/templates
+tpl_compile_ext: .hbs

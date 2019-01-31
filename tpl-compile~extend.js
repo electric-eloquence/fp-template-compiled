@@ -13,6 +13,7 @@ const yaml = require('js-yaml');
 
 const appDir = global.appDir;
 const conf = global.conf;
+const pref = global.pref;
 const rootDir = global.rootDir;
 
 const dataDir = conf.ui.paths.source.data;
@@ -64,7 +65,8 @@ function tplEncode(tplType, argv) {
   const files = glob.sync(`${patternDirSrc}/**/*${ext}`) || [];
 
   for (let i = 0; i < files.length; i++) {
-    let content = fs.readFileSync(files[i], conf.enc);
+    const file = files[i];
+    let content = fs.readFileSync(file, conf.enc);
 
     // Only Handlebars right now. Could easily encode for other languages.
     switch (tplType) {
@@ -75,8 +77,8 @@ function tplEncode(tplType, argv) {
 
     const regex = new RegExp(`${ext}$`);
 
-    let mustacheFile = files[i].replace(regex, '.mustache');
-    let jsonFile = files[i].replace(regex, '.json');
+    let mustacheFile = file.replace(regex, '.mustache');
+    let jsonFile = file.replace(regex, '.json');
 
     fs.writeFileSync(mustacheFile, content);
 
@@ -89,12 +91,12 @@ function tplEncode(tplType, argv) {
 
     // Crucial part is done. Log to console.
     utils.log(
-      '%s encoded to %s.', files[i].replace(rootDir, '').replace(/^\//, ''),
+      '%s encoded to %s.', file.replace(rootDir, '').replace(/^\//, ''),
       mustacheFile.replace(rootDir, '').replace(/^\//, '')
     );
 
     // Clean up.
-    fs.unlinkSync(files[i]);
+    fs.unlinkSync(file);
 
     // Add key/values to _data.json if they are not there.
     // These hide the encoded tags in all views except 03-templates.
@@ -139,7 +141,7 @@ function tplEncode(tplType, argv) {
 }
 
 gulp.task('tpl-compile:copy', function (cb) {
-  const files = glob.sync(`${tplDir}/**/*.yml`) || [];
+  const files = glob.sync(`${tplDir}/**/*.json`) || [];
   const rcFile = '.jsbeautifyrc';
   const rcLoader = new RcLoader(rcFile);
   let rcOpts;
@@ -157,12 +159,15 @@ gulp.task('tpl-compile:copy', function (cb) {
   rcOpts.indent_handlebars = true;
 
   for (let i = 0; i < files.length; i++) {
+    const file = files[i];
     let data = {};
     let stats = null;
+    let tplCompileDir;
+    let tplCompileExt;
     let yml = '';
 
     try {
-      stats = fs.statSync(files[i]);
+      stats = fs.statSync(file);
     }
     catch (err) {
       /* istanbul ignore next */
@@ -177,24 +182,31 @@ gulp.task('tpl-compile:copy', function (cb) {
       continue;
     }
 
-    try {
-      yml = fs.readFileSync(files[i], conf.enc);
-      data = yaml.safeLoad(yml);
+    const pathObj = path.parse(file);
+    const pathMinusExt = path.join(pathObj.dir, pathObj.name);
+    const ymlFile = `${pathMinusExt}.yml`;
+
+    if (fs.existsSync(ymlFile)) {
+      try {
+        yml = fs.readFileSync(ymlFile, conf.enc);
+        data = yaml.safeLoad(yml);
+      }
+      catch (err) {
+        // Fail gracefully.
+      }
     }
-    catch (err) {
-      /* istanbul ignore next */
-      utils.error(err);
-      /* istanbul ignore next */
-      continue;
-    }
+
+    tplCompileDir = data.tpl_compile_dir || pref.tpl_compile_dir;
+    tplCompileExt = data.tpl_compile_ext || pref.tpl_compile_ext;
+    tplCompileExt = utils.extNormalize(tplCompileExt);
+
 
     /* istanbul ignore if */
-    if (!data.tpl_compile_dir || !data.tpl_compile_ext) {
+    if (!tplCompileDir || !tplCompileExt) {
       continue;
     }
 
-    let pubPattern = files[i].replace(`${patternDirSrc}/`, '');
-    pubPattern = pubPattern.slice(0, -4);
+    let pubPattern = pathMinusExt.replace(`${patternDirSrc}/`, '');
     pubPattern = pubPattern.replace(/\//g, '-');
     pubPattern = pubPattern.replace(/~/g, '-');
     let pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
@@ -219,14 +231,19 @@ gulp.task('tpl-compile:copy', function (cb) {
     pubContent = pubContent.replace(/(\{\{\^)(\S+)(\s+)\u00A0/g, '$1$3$2');
     pubContent = pubContent.replace(/(\{\{\/)(\S+)(\s+)\u00A0/g, '$1$3$2');
 
-    // Prepare extension.
-    const tplCompileExt = utils.extNormalize(data.tpl_compile_ext);
-
     // Build path to destFile.
-    let destFile = `${rootDir}/backend/${data.tpl_compile_dir.trim()}/${path.basename(files[i], '.yml')}`;
+    let destFile = `${rootDir}/backend/${tplCompileDir.trim()}/${pathObj.name}`;
     destFile += tplCompileExt;
 
-    fs.writeFileSync(destFile, pubContent);
+    try {
+      fs.writeFileSync(destFile, pubContent);
+    }
+    catch (err) {
+      /* istanbul ignore next */
+      utils.error(err);
+      /* istanbul ignore next */
+      continue;
+    }
 
     // Log to console.
     utils.log('Template %s compiled.', destFile.replace(rootDir, '').replace(/^\//, ''));

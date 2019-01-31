@@ -22,7 +22,7 @@ describe('fp-tpl-compile', function () {
     });
 
     it('should compile templates to the backend', function () {
-      const compiled = fs.readFileSync(join(__dirname, 'backend/docroot/tpl-compile.hbs'), enc);
+      const compiled = fs.readFileSync(join(__dirname, 'backend/docroot/templates/tpl-compile.hbs'), enc);
       const expected = `<h1>{{title}}</h1>
 {{#each foo}}
   {{#if bar}}
@@ -35,7 +35,7 @@ describe('fp-tpl-compile', function () {
     });
 
     it('should include partial templates in the compiled template', function () {
-      const compiled = fs.readFileSync(join(__dirname, 'backend/docroot/tpl-compile.hbs'), enc);
+      const compiled = fs.readFileSync(join(__dirname, 'backend/docroot/templates/tpl-compile.hbs'), enc);
       const contained = `
   {{#if bar}}
     <p>{{backend_content}}</p>
@@ -43,13 +43,41 @@ describe('fp-tpl-compile', function () {
 `;
       expect(compiled).to.contain(contained);
     });
+
+    it('should compile templates to an alternate backend directory with alternate extension', function () {
+      const compiled =
+        fs.readFileSync(join(__dirname, 'backend/docroot/templates1/tpl-compile-w-local-yml.handlebars'), enc);
+      const expected = `<h1>{{title}}</h1>
+{{#each foo}}
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+{{/each}}
+<footer>{{{footer}}}</footer>
+`;
+      expect(compiled).to.equal(expected);
+    });
+
+    it(
+      'should include partial templates in the template compiled to the alternate backend directory with alternate extension', 
+      function () {
+        const compiled =
+          fs.readFileSync(join(__dirname, 'backend/docroot/templates1/tpl-compile-w-local-yml.handlebars'), enc);
+        const contained = `
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+`;
+        expect(compiled).to.contain(contained);
+      }
+    );
   });
 
   describe('fp tpl-encode:hbs', function () {
     before(function (done) {
       fs.writeFileSync(join(__dirname, 'source/_data/_data.json'), '{}\n');
       fs.copyFileSync(
-        join(__dirname, 'backend/docroot/tpl-encode.hbs'),
+        join(__dirname, 'backend/docroot/templates/tpl-encode.hbs'),
         join(__dirname, 'source/_patterns/03-templates/tpl-encode.hbs')
       );
       if (fs.existsSync(join(__dirname, 'source/_patterns/03-templates/tpl-encode.mustache'))) {
@@ -59,6 +87,12 @@ describe('fp-tpl-compile', function () {
         'tpl-encode:hbs',
         done
       );
+    });
+
+    after(function () {
+      if (fs.existsSync(join(__dirname, 'source/_patterns/03-templates/tpl-encode.json'))) {
+        fs.unlinkSync(join(__dirname, 'source/_patterns/03-templates/tpl-encode.json'));
+      }
     });
 
     it('should include partial templates in the compiled template', function () {
