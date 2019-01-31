@@ -54,7 +54,49 @@
 
         </div>
         <script type="text/json" id="sg-pattern-data-templates-tpl-compile-partial" class="sg-pattern-data">
-          {"lineage":[],"lineageExists":false,"lineageR":[{"lineagePattern":"templates-tpl-compile","lineagePath":"patterns/03-templates-tpl-compile/03-templates-tpl-compile.html","isHidden":false}],"lineageRExists":true,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile Partial","patternPartial":"templates-tpl-compile-partial","patternState":""}
+          {"lineage":[],"lineageExists":false,"lineageR":[{"lineagePattern":"templates-tpl-compile-w-local-yml","lineagePath":"patterns/03-templates-tpl-compile-w-local-yml/03-templates-tpl-compile-w-local-yml.html","isHidden":false},{"lineagePattern":"templates-tpl-compile","lineagePath":"patterns/03-templates-tpl-compile/03-templates-tpl-compile.html","isHidden":false}],"lineageRExists":true,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile Partial","patternPartial":"templates-tpl-compile-partial","patternState":""}
+        </script>
+      </div><!--end .sg-pattern-->
+    
+      <div id="templates-tpl-compile-w-local-yml" class="sg-pattern">
+        <div class="sg-pattern-head">
+          <h4 class="sg-pattern-title">
+            <a
+              href="../../patterns/03-templates-tpl-compile-w-local-yml/03-templates-tpl-compile-w-local-yml.html"
+              class="sg-pattern-link"
+              data-patternpartial="templates-tpl-compile-w-local-yml"
+              title="Link to Pattern"
+            >Tpl Compile W Local Yml</a>
+          </h4>
+          <div class="sg-pattern-info-toggles">
+            <a
+              href="#"
+              id="sg-pattern-toggle-annotations-templates-tpl-compile-w-local-yml"
+              class="sg-pattern-info-toggle sg-pattern-toggle-annotations"
+              data-patternpartial="templates-tpl-compile-w-local-yml"
+              title="View Pattern Annotations"
+            >&#x1F4C4;</a>
+            <a
+              href="#"
+              id="sg-pattern-toggle-code-templates-tpl-compile-w-local-yml"
+              class="sg-pattern-info-toggle sg-pattern-toggle-code"
+              data-patternpartial="templates-tpl-compile-w-local-yml"
+              title="View Pattern Code"
+            >&#x276E;&#x276F;</a>
+          </div>
+        </div>
+        <div class="sg-pattern-example cf">
+          <h1>{{title}}</h1>
+{{#each foo}}
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+{{/each}}
+<footer>{{{footer}}}</footer>
+
+        </div>
+        <script type="text/json" id="sg-pattern-data-templates-tpl-compile-w-local-yml" class="sg-pattern-data">
+          {"lineage":[{"lineagePattern":"templates-tpl-compile-partial","lineagePath":"patterns/03-templates-tpl-compile-partial/03-templates-tpl-compile-partial.html","isHidden":false}],"lineageExists":true,"lineageR":[],"lineageRExists":false,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile W Local Yml","patternPartial":"templates-tpl-compile-w-local-yml","patternState":""}
         </script>
       </div><!--end .sg-pattern-->
     
@@ -128,13 +170,13 @@
           </div>
         </div>
         <div class="sg-pattern-example cf">
-          <h1>{{title}}</h1>
-{{#each foo}}
-  {{#if bar}}
-    <p>{{backend_content}}</p>
-  {{/if}}
-{{/each}}
-<footer>{{{footer}}}</footer>
+          <h1><!--title--></h1>
+<!--#each foo-->
+  <!--#if bar-->
+    <p><!--backend_content--></p>
+  <!--/if-->
+<!--/each-->
+<footer><!--{footer}--></footer>
 
         </div>
         <script type="text/json" id="sg-pattern-data-templates-tpl-encode" class="sg-pattern-data">

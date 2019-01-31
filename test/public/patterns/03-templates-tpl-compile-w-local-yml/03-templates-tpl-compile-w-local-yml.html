@@ -3,10 +3,10 @@
 <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
 <script src="../../annotations/annotations.js"></script>
 <!-- End Pattern Lab -->
-<h1><!--title--></h1>
-<!--#each foo-->
-  <!--#if bar-->
-    <p><!--backend_content--></p>
-  <!--/if-->
-<!--/each-->
-<footer><!--{footer}--></footer>
+<h1>{{title}}</h1>
+{{#each foo}}
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+{{/each}}
+<footer>{{{footer}}}</footer>
