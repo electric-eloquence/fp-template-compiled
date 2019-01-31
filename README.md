@@ -1,55 +1,66 @@
 # Template Compile extension for Fepper
 
-## Export fully recursed templates in your backend's templating language.
+## Export fully recursed templates in your backend's template language.
+
+This extension exports templates from the `source/_patterns/03-templates` 
+directory to the backend, similar to the way that `fp template` does. However, 
+the output will compile all included partials. Furthermore, this extension 
+obviates the need to declare a translation for each tag.
+
+This should prove to be a simpler alternative to Fepper core's `fp template` 
+task, but it is probably not appropriate for many CMSs (like Drupal and 
+WordPress) for which `fp template` was originally designed.
+
+Instead, this extension is more suitable for Express-like applications, where 
+any number of routes can be assigned a unique template for rendering HTML. 
+Unlike Drupal and WordPress, instead of the backend trying to determine which 
+partial goes where, the inclusion of partials, as appropriate per route, would 
+be prototyped in Fepper. Running `fp tpl-compile` would then compile a single 
+template per route.
 
 ### Commands
 
-```shell
-fp tpl-compile
-fp tpl-encode:hbs -e .ext
-```
+#### `fp tpl-compile`
 
-`fp tpl-compile` will export templates from the `source/_patterns/03-templates` 
-directory, similar to the way that `fp template` does. However, the outputted 
-templates will include all partials, without them needing to be explicitly 
-included with a `.mustache` extension.
-
-The tags within will most likely need to be translated from Fepper's Mustache 
-syntax 
+This does the compilation as described in the first paragraph. You will still 
+normally need to translate from Fepper's Mustache syntax 
 (<a href="https://github.com/electric-eloquence/feplet" target="_blank">Feplet</a>) 
-into the language and syntax by which they will be appropriated. Do not assign 
-the translated values in the template's .yml file. Instead, in the `.mustache` 
-file, wrap the tags in triple curly braces, and assign the translated values to 
-their corresponding keys in the template's `.json` file.
+to the backend's template language. `fp tpl-compile` leverages normal Feplet 
+rendering, but targets the tag delimiters instead of the entire tag. You are 
+free to use any alternate delimiter, but we recommend ERB notation, as 
+exemplified in the 
+<a href="https://mustache.github.io/mustache.5.html#Set-Delimiter" target="_blank">Mustache docs</a>. 
+Wrap them in triple curly braces and use them as opening and closing 
+delimiters surrounding tags destined for the backend. In the example of ERB 
+alternate tags and Handlebars as the backend language, the `.json` file specific 
+to the Fepper template should declare `<%` and `%>` keys and have them evaluate 
+to `{{` and `}}` respectively. In the global `_data.json` file, they should 
+evaluate to `<!--` and `-->` so they can be ignored by humans viewing the UI.
 
-In the template's `.yml` file, assign the destination directory to a `tpl_compile_dir` 
-key, and the destination file's extension to a `tpl_compile_ext` key.
+The `tpl_compile_dir` and `tpl_compile_ext` preferences need to be configured in 
+`pref.yml` or the template's `.yml` file, so `fp tpl-compile` knows 
+where to write, and what extension to append to the filename.
 
-Stashes (the symbols used to demarcate tags) must be escaped by replacing them 
-with a different delimiter (ERB notation, as exemplified in the 
-<a href="https://mustache.github.io/mustache.5.html#Set-Delimiter" target="_blank">Mustache docs</a>) 
-and then surrounding them in triple curly braces. The `.json` file specific to 
-the template should declare `<%` and `%>` keys and have them evaluate to `{{` 
-and `}}` respectively. In the global `_data.json` file, they should evaluate to 
-`<!--` and `-->` so they can be ignored by humans viewing the UI.
+#### `fp tpl-encode:hbs -e .ext`
 
-`fp tpl-encode:hbs` automates this. It translates backend templates to templates 
-Fepper can consume. Assuming the backend template is fully fleshed out, copy 
-it to `source/patterns/03-templates`. Do not change its name. Then, run the 
-command with the extension used by the backend (probably ".hbs").
+`fp tpl-encode:hbs` works in the reverse direction. It translates backend 
+templates to Fepper templates. Assuming the backend template is fully fleshed 
+out, copy it to `source/patterns/03-templates`. Do not change its name. Then, 
+run the command with the extension used by the backend. The backend template in 
+`source/patterns/03-templates` will be replaced by a `.mustache` file, 
+accompanied by a `.json` file.
 
-`fp tpl-encode:hbs` will also update the data schema to correctly render the 
+The `.json` file will declare the data schema necessary to correctly render the 
 encoded tags both within the Fepper UI, and for export by `fp tpl-compile`. One 
 gotcha to be aware of is that underscore-prefixed hidden files should not have a 
-corresponding .json file. Underscore-prefixed .json will get compiled into 
-`source/_data/data.json`, possibly overwriting values for `<%` and `%>`.
+corresponding .json file. Underscore-prefixed `.json` files will get compiled 
+into `source/_data/data.json`, possibly overwriting values for `<%` and `%>`.
 
-`fp tpl-encode:hbs` only works with Handlebars at the moment, but will likely be 
-expanded to process more templating languages.
+`fp tpl-encode:hbs` encodes any language with tags delimited with `{{` and `}}`.
 
 The output HTML will be formatted by 
 <a href="https://github.com/beautify-web/js-beautify" target="_blank">js-beautify</a>. 
-To override the default configurations, modify the .jsbeautifyrc file at the 
+To override the default configurations, modify the `.jsbeautifyrc` file at the 
 root of Fepper.
 
 ### Example
@@ -71,7 +82,7 @@ root of Fepper.
 }
 ```
 
-##### source/\_patterns/03-templates/example.yml:
+##### source/\_patterns/03-templates/example.yml (or append to pref.yml):
 
 ```yaml
 tpl_compile_dir: docroot/templates
@@ -92,13 +103,11 @@ tpl_compile_ext: .hbs
 }
 ```
 
-##### source/\_data/\_data.json:
+##### Insert into source/\_data/\_data.json:
 
 ```
-{
-  "<%": "<!--",
-  "%>": "-->"
-}
+"<%": "<!--",
+"%>": "-->"
 ```
 
 ##### Compiles to backend/docroot/templates/example.hbs:
