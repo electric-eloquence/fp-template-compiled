@@ -3,6 +3,16 @@
   "version": "0.5.2",
   "description": "Template Compile extension for Fepper",
   "main": "tpl-compile~extend.js",
+  "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint *.js && eslint test/*.js",
+    "test": "nyc mocha"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint && npm test"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/electric-eloquence/fp-tpl-compile.git"
