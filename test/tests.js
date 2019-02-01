@@ -140,6 +140,8 @@ describe('fp-tpl-compile', function () {
 {{{<%}}}/each{{{%>}}}
 <footer>{{{<%}}}{footer}{{{%>}}}</footer>
 `;
+      expect(tplEncodeJsonExistsBefore).to.equal(false);
+      expect(tplEncodeMustacheExistsBefore).to.equal(false);
       expect(encoded).to.equal(expected);
     });
 
