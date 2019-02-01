@@ -48,9 +48,9 @@
           </div>
         </div>
         <div class="sg-pattern-example cf">
-          <!--#if bar-->
-  <p><!--backend_content--></p>
-<!--/if-->
+          #if bar
+<p>backend_content</p>
+/if
 
         </div>
         <script type="text/json" id="sg-pattern-data-templates-tpl-compile-partial" class="sg-pattern-data">
@@ -139,48 +139,6 @@
         </div>
         <script type="text/json" id="sg-pattern-data-templates-tpl-compile" class="sg-pattern-data">
           {"lineage":[{"lineagePattern":"templates-tpl-compile-partial","lineagePath":"patterns/03-templates-tpl-compile-partial/03-templates-tpl-compile-partial.html","isHidden":false}],"lineageExists":true,"lineageR":[],"lineageRExists":false,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile","patternPartial":"templates-tpl-compile","patternState":""}
-        </script>
-      </div><!--end .sg-pattern-->
-    
-      <div id="templates-tpl-encode" class="sg-pattern">
-        <div class="sg-pattern-head">
-          <h4 class="sg-pattern-title">
-            <a
-              href="../../patterns/03-templates-tpl-encode/03-templates-tpl-encode.html"
-              class="sg-pattern-link"
-              data-patternpartial="templates-tpl-encode"
-              title="Link to Pattern"
-            >Tpl Encode</a>
-          </h4>
-          <div class="sg-pattern-info-toggles">
-            <a
-              href="#"
-              id="sg-pattern-toggle-annotations-templates-tpl-encode"
-              class="sg-pattern-info-toggle sg-pattern-toggle-annotations"
-              data-patternpartial="templates-tpl-encode"
-              title="View Pattern Annotations"
-            >&#x1F4C4;</a>
-            <a
-              href="#"
-              id="sg-pattern-toggle-code-templates-tpl-encode"
-              class="sg-pattern-info-toggle sg-pattern-toggle-code"
-              data-patternpartial="templates-tpl-encode"
-              title="View Pattern Code"
-            >&#x276E;&#x276F;</a>
-          </div>
-        </div>
-        <div class="sg-pattern-example cf">
-          <h1><!--title--></h1>
-<!--#each foo-->
-  <!--#if bar-->
-    <p><!--backend_content--></p>
-  <!--/if-->
-<!--/each-->
-<footer><!--{footer}--></footer>
-
-        </div>
-        <script type="text/json" id="sg-pattern-data-templates-tpl-encode" class="sg-pattern-data">
-          {"lineage":[],"lineageExists":false,"lineageR":[],"lineageRExists":false,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Encode","patternPartial":"templates-tpl-encode","patternState":""}
         </script>
       </div><!--end .sg-pattern-->
     
