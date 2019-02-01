@@ -158,8 +158,8 @@ describe('fp-tpl-compile', function () {
         const globalData = fs.readJsonSync(_dataJson);
 
         expect(_dataJsonBefore).to.equal('{}\n');
-        expect(globalData['<%']).to.equal('{{');
-        expect(globalData['%>']).to.equal('}}');
+        expect(globalData['<%']).to.equal('<!--');
+        expect(globalData['%>']).to.equal('-->');
       }
     );
   });
