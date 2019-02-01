@@ -1,5 +1,11 @@
 # Template Compile extension for Fepper
 
+[![Known Vulnerabilities][snyk-image]][snyk-url]
+[![Mac/Linux Build Status][travis-image]][travis-url]
+[![Windows Build Status][appveyor-image]][appveyor-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![License][license-image]][license-url]
+
 ## Export fully recursed templates in your backend's template language.
 
 This extension exports templates from the `source/_patterns/03-templates` 
@@ -130,3 +136,18 @@ tpl_compile_ext: .hbs
 <p>{{backend_content}}</p>
 <footer>{{{footer}}}</footer>
 ```
+
+[snyk-image]: https://snyk.io/test/github/electric-eloquence/fp-tpl-compile/master/badge.svg
+[snyk-url]: https://snyk.io/test/github/electric-eloquence/fp-tpl-compile/master
+
+[travis-image]: https://img.shields.io/travis/electric-eloquence/fp-tpl-compile.svg?label=mac%20%26%20linux
+[travis-url]: https://travis-ci.org/electric-eloquence/fp-tpl-compile
+
+[appveyor-image]: https://img.shields.io/appveyor/ci/e2tha-e/fp-tpl-compile.svg?label=windows
+[appveyor-url]: https://ci.appveyor.com/project/e2tha-e/fp-tpl-compile
+
+[coveralls-image]: https://img.shields.io/coveralls/electric-eloquence/fp-tpl-compile/master.svg
+[coveralls-url]: https://coveralls.io/r/electric-eloquence/fp-tpl-compile
+
+[license-image]: https://img.shields.io/github/license/electric-eloquence/fp-tpl-compile.svg
+[license-url]: https://raw.githubusercontent.com/electric-eloquence/fp-tpl-compile/master/LICENSE
