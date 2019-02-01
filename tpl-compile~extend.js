@@ -182,8 +182,7 @@ gulp.task('tpl-compile:copy', function (cb) {
       continue;
     }
 
-    const pathObj = path.parse(file);
-    const pathMinusExt = path.join(pathObj.dir, pathObj.name);
+    const pathMinusExt = file.slice(0, -(path.extname(file).length));
     const ymlFile = `${pathMinusExt}.yml`;
 
     if (fs.existsSync(ymlFile)) {
