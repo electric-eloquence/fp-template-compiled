@@ -141,7 +141,7 @@ function tplEncode(tplType, argv) {
 }
 
 gulp.task('tpl-compile:copy', function (cb) {
-  const globExt '.json';
+  const globExt = '.json';
   const files = glob.sync(`${tplDir}/**/*${globExt}`) || [];
   const rcFile = '.jsbeautifyrc';
   const rcLoader = new RcLoader(rcFile);
