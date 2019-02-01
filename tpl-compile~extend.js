@@ -141,7 +141,8 @@ function tplEncode(tplType, argv) {
 }
 
 gulp.task('tpl-compile:copy', function (cb) {
-  const files = glob.sync(`${tplDir}/**/*.json`) || [];
+  const globExt '.json';
+  const files = glob.sync(`${tplDir}/**/*${globExt}`) || [];
   const rcFile = '.jsbeautifyrc';
   const rcLoader = new RcLoader(rcFile);
   let rcOpts;
@@ -182,7 +183,8 @@ gulp.task('tpl-compile:copy', function (cb) {
       continue;
     }
 
-    const pathMinusExt = file.slice(0, -(path.extname(file).length));
+    const fileMinusExt = path.basename(file, globExt);
+    const pathMinusExt = `${path.dirname(file)}/${fileMinusExt}`;
     const ymlFile = `${pathMinusExt}.yml`;
 
     if (fs.existsSync(ymlFile)) {
@@ -231,8 +233,7 @@ gulp.task('tpl-compile:copy', function (cb) {
     pubContent = pubContent.replace(/(\{\{\/)(\S+)(\s+)\u00A0/g, '$1$3$2');
 
     // Build path to destFile.
-    let destFile = `${rootDir}/backend/${tplCompileDir.trim()}/${pathObj.name}`;
-    destFile += tplCompileExt;
+    let destFile = `${rootDir}/backend/${tplCompileDir.trim()}/${fileMinusExt}${tplCompileExt}`;
 
     try {
       fs.writeFileSync(destFile, pubContent);
