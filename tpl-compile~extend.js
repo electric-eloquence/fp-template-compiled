@@ -140,6 +140,8 @@ function tplEncode(tplType, argv) {
   }
 }
 
+// Declare gulp tasks.
+
 gulp.task('tpl-compile:copy', function (cb) {
   const globExt = '.json';
   const files = glob.sync(`${tplDir}/**/*${globExt}`) || [];
