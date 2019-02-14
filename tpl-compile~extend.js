@@ -164,13 +164,13 @@ gulp.task('tpl-compile:copy', function (cb) {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     let data = {};
-    let stats = null;
+    let stat;
     let tplCompileDir;
     let tplCompileExt;
     let yml = '';
 
     try {
-      stats = fs.statSync(file);
+      stat = fs.statSync(file);
     }
     catch (err) {
       /* istanbul ignore next */
@@ -181,7 +181,7 @@ gulp.task('tpl-compile:copy', function (cb) {
 
     // Only process valid files.
     /* istanbul ignore if */
-    if (!stats || !stats.isFile()) {
+    if (!stat || !stat.isFile()) {
       continue;
     }
 
