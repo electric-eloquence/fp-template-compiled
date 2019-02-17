@@ -91,7 +91,7 @@ function tplEncode(tplType, argv) {
 
     // Crucial part is done. Log to console.
     utils.log(
-      '%s encoded to %s.', file.replace(rootDir, '').replace(/^\//, ''),
+      '\x1b[36m%s\x1b[0m encoded to \x1b[36m%s\x1b[0m.', file.replace(rootDir, '').replace(/^\//, ''),
       mustacheFile.replace(rootDir, '').replace(/^\//, '')
     );
 
@@ -248,7 +248,7 @@ gulp.task('tpl-compile:copy', function (cb) {
     }
 
     // Log to console.
-    utils.log('Template %s compiled.', destFile.replace(rootDir, '').replace(/^\//, ''));
+    utils.log('Template \x1b[36m%s\x1b[0m compiled.', destFile.replace(rootDir, '').replace(/^\//, ''));
   }
   cb();
 });
