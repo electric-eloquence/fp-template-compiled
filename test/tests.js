@@ -61,8 +61,7 @@ describe('fp-tpl-compile', function () {
     });
 
     it('should compile templates to an alternate backend directory with alternate extension', function () {
-      const compiled =
-        fs.readFileSync(tplCompileWLocalYml, enc);
+      const compiled = fs.readFileSync(tplCompileWLocalYml, enc);
       const expected = `<h1>{{title}}</h1>
 {{#each foo}}
   {{#if bar}}
@@ -77,17 +76,16 @@ describe('fp-tpl-compile', function () {
 
     it(
       'should include partial templates in the template compiled to the alternate backend directory with alternate extension',
-      function () {
-        const compiled =
-          fs.readFileSync(tplCompileWLocalYml, enc);
-        const contained = `
+      function ()
+    {
+      const compiled = fs.readFileSync(tplCompileWLocalYml, enc);
+      const contained = `
   {{#if bar}}
     <p>{{backend_content}}</p>
   {{/if}}
 `;
-        expect(compiled).to.contain(contained);
-      }
-    );
+      expect(compiled).to.contain(contained);
+    });
   });
 
   describe('fp tpl-encode:hbs', function () {
@@ -154,13 +152,13 @@ describe('fp-tpl-compile', function () {
 
     it(
       'should write data to the global _data.json for rendering human-viewable patterns from the encoded templates',
-      function () {
-        const globalData = fs.readJsonSync(_dataJson);
+      function ()
+    {
+      const globalData = fs.readJsonSync(_dataJson);
 
-        expect(_dataJsonBefore).to.equal('{}\n');
-        expect(globalData['<%']).to.equal('<!--');
-        expect(globalData['%>']).to.equal('-->');
-      }
-    );
+      expect(_dataJsonBefore).to.equal('{}\n');
+      expect(globalData['<%']).to.equal('<!--');
+      expect(globalData['%>']).to.equal('-->');
+    });
   });
 });
