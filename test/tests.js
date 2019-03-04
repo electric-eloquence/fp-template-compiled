@@ -74,10 +74,8 @@ describe('fp-tpl-compile', function () {
       expect(compiled).to.equal(expected);
     });
 
-    it(
-      'should include partial templates in the template compiled to the alternate backend directory with alternate extension',
-      function ()
-    {
+    it('should include partial templates in the template compiled to the alternate backend directory with alternate \
+extension', function () {
       const compiled = fs.readFileSync(tplCompileWLocalYml, enc);
       const contained = `
   {{#if bar}}
@@ -150,10 +148,8 @@ describe('fp-tpl-compile', function () {
       expect(compileData['%>']).to.equal('}}');
     });
 
-    it(
-      'should write data to the global _data.json for rendering human-viewable patterns from the encoded templates',
-      function ()
-    {
+    it('should write data to the global _data.json for rendering human-viewable patterns from the encoded \
+templates', function () {
       const globalData = fs.readJsonSync(_dataJson);
 
       expect(_dataJsonBefore).to.equal('{}\n');
