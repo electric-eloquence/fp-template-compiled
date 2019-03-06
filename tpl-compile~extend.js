@@ -223,7 +223,7 @@ gulp.task('tpl-compile:copy', function (cb) {
     // the variable name must be removed. However, we want to add the spaces back later.
     // \u00A0 is &nbsp; a space character not enterable by keyboard, and therefore a good delimiter.
     pubContent = pubContent.replace(/(\{\{#)(\s+)(\S+)/g, '$1$3$2\u00A0');
-    pubContent = pubContent.replace(/(\{\{^)(\s+)(\S+)/g, '$1$3$2\u00A0');
+    pubContent = pubContent.replace(/(\{\{\^)(\s+)(\S+)/g, '$1$3$2\u00A0');
     pubContent = pubContent.replace(/(\{\{\/)(\s+)(\S+)/g, '$1$3$2\u00A0');
 
     // Load .jsbeautifyrc and beautify html.
