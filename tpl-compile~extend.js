@@ -2,16 +2,12 @@
 
 const path = require('path');
 
-const beautify = require('js-beautify').html;
 const fs = require('fs-extra');
 const glob = require('glob');
 const gulp = require('gulp');
-const RcLoader = require('rcloader');
-const runSequence = require('run-sequence');
 const utils = require('fepper-utils');
 const yaml = require('js-yaml');
 
-const appDir = global.appDir;
 const conf = global.conf;
 const pref = global.pref;
 const rootDir = global.rootDir;
@@ -145,21 +141,6 @@ function tplEncode(tplType, argv) {
 gulp.task('tpl-compile:copy', function (cb) {
   const globExt = '.json';
   const files = glob.sync(`${tplDir}/**/*${globExt}`) || [];
-  const rcFile = '.jsbeautifyrc';
-  const rcLoader = new RcLoader(rcFile);
-  let rcOpts;
-
-  // First, try to load .jsbeautifyrc with user-configurable options.
-  /* istanbul ignore if */
-  if (fs.existsSync(`${rootDir}/${rcFile}`)) {
-    rcOpts = rcLoader.for(`${rootDir}/${rcFile}`, {lookup: false});
-  }
-  // Else, load the .jsbeautifyrc that ships with fepper-npm.
-  else {
-    rcOpts = rcLoader.for(`${appDir}/${rcFile}`, {lookup: false});
-  }
-
-  rcOpts.indent_handlebars = true;
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
@@ -214,27 +195,7 @@ gulp.task('tpl-compile:copy', function (cb) {
     pubPattern = pubPattern.replace(/~/g, '-');
     let pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
     let pubContent = fs.readFileSync(pubFile, conf.enc);
-
-    // Delete empty lines.
     pubContent = pubContent.replace(/^\s*$\n/gm, '');
-
-    // Prep for beautifcation.
-    // In order for js-beautify's to indent Handlebars correctly, any space between control characters #, ^, and /, and
-    // the variable name must be removed. However, we want to add the spaces back later.
-    // \u00A0 is &nbsp; a space character not enterable by keyboard, and therefore a good delimiter.
-    pubContent = pubContent.replace(/(\{\{#)(\s+)(\S+)/g, '$1$3$2\u00A0');
-    pubContent = pubContent.replace(/(\{\{\^)(\s+)(\S+)/g, '$1$3$2\u00A0');
-    pubContent = pubContent.replace(/(\{\{\/)(\s+)(\S+)/g, '$1$3$2\u00A0');
-
-    // Load .jsbeautifyrc and beautify html.
-    pubContent = beautify(pubContent, rcOpts);
-
-    // Add back removed spaces to retain the look intended by the author.
-    pubContent = pubContent.replace(/(\{\{#)(\S+)(\s+)\u00A0/g, '$1$3$2');
-    pubContent = pubContent.replace(/(\{\{\^)(\S+)(\s+)\u00A0/g, '$1$3$2');
-    pubContent = pubContent.replace(/(\{\{\/)(\S+)(\s+)\u00A0/g, '$1$3$2');
-
-    // Build path to destFile.
     let destFile = `${rootDir}/backend/${tplCompileDir.trim()}/${fileMinusExt}${tplCompileExt}`;
 
     try {
@@ -254,7 +215,7 @@ gulp.task('tpl-compile:copy', function (cb) {
 });
 
 gulp.task('tpl-compile', function (cb) {
-  runSequence(
+  gulp.runSequence(
     'once',
     'tpl-compile:copy',
     cb
