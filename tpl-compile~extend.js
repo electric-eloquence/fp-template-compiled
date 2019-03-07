@@ -24,11 +24,7 @@ function tplCompile() {
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
-    let data = {};
     let stat;
-    let tplCompileDir;
-    let tplCompileExt;
-    let yml = '';
 
     try {
       stat = fs.statSync(file);
@@ -49,10 +45,11 @@ function tplCompile() {
     const fileMinusExt = path.basename(file, globExt);
     const pathMinusExt = `${path.dirname(file)}/${fileMinusExt}`;
     const ymlFile = `${pathMinusExt}.yml`;
+    let data = {};
 
     if (fs.existsSync(ymlFile)) {
       try {
-        yml = fs.readFileSync(ymlFile, conf.enc);
+        const yml = fs.readFileSync(ymlFile, conf.enc);
         data = yaml.safeLoad(yml);
       }
       catch (err) {
@@ -60,9 +57,8 @@ function tplCompile() {
       }
     }
 
-    tplCompileDir = data.tpl_compile_dir || pref.tpl_compile_dir;
-    tplCompileExt = data.tpl_compile_ext || pref.tpl_compile_ext;
-    tplCompileExt = utils.extNormalize(tplCompileExt);
+    const tplCompileDir = data.tpl_compile_dir || pref.tpl_compile_dir;
+    const tplCompileExt = utils.extNormalize(data.tpl_compile_ext || pref.tpl_compile_ext);
 
 
     /* istanbul ignore if */
@@ -73,10 +69,9 @@ function tplCompile() {
     let pubPattern = pathMinusExt.replace(`${patternDirSrc}/`, '');
     pubPattern = pubPattern.replace(/\//g, '-');
     pubPattern = pubPattern.replace(/~/g, '-');
-    let pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
-    let pubContent = fs.readFileSync(pubFile, conf.enc);
-    pubContent = pubContent.replace(/^\s*$\n/gm, '');
-    let destFile = `${rootDir}/backend/${tplCompileDir.trim()}/${fileMinusExt}${tplCompileExt}`;
+    const pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
+    const pubContent = fs.readFileSync(pubFile, conf.enc);
+    const destFile = `${rootDir}/backend/${tplCompileDir.trim()}/${fileMinusExt}${tplCompileExt}`;
 
     try {
       fs.writeFileSync(destFile, pubContent);
