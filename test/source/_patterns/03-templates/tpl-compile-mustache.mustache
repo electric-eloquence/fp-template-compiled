@@ -1,0 +1,14 @@
+<h1>{{{<%}}}title{{{%>}}}</h1>
+{{{<%}}}# foo {{{%>}}}
+  {{> templates-tpl-compile-partial }}
+{{{<%}}}/ foo {{{%>}}}
+{{{<%}}}^ foo {{{%>}}}
+  {{> templates-tpl-compile-partial }}
+{{{<%}}}/ foo {{{%>}}}
+{{{<%}}}#bar{{{%>}}}
+  {{> templates-tpl-compile-partial }}
+{{{<%}}}/bar{{{%>}}}
+{{{<%}}}^bar{{{%>}}}
+  {{> templates-tpl-compile-partial }}
+{{{<%}}}/bar{{{%>}}}
+<footer>{{{<%}}}{footer}{{{%>}}}</footer>
