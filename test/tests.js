@@ -84,6 +84,35 @@ extension', function () {
 `;
       expect(compiled).to.contain(contained);
     });
+
+    it('should retain and beautify tags that adhere to the Mustache spec', function () {
+      const tplCompileMustache = join(__dirname, 'backend/docroot/templates/tpl-compile-mustache.hbs');
+      const compiled = fs.readFileSync(tplCompileMustache, enc);
+      const expected = `<h1>{{title}}</h1>
+{{# foo }}
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+{{/ foo }}
+{{^ foo }}
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+{{/ foo }}
+{{#bar}}
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+{{/bar}}
+{{^bar}}
+  {{#if bar}}
+    <p>{{backend_content}}</p>
+  {{/if}}
+{{/bar}}
+<footer>{{{footer}}}</footer>
+`;
+      expect(compiled).to.equal(expected);
+    });
   });
 
   describe('fp tpl-encode:hbs', function () {
