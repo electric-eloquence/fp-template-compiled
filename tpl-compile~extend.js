@@ -18,127 +18,7 @@ const patternDirPub = conf.ui.paths.public.patterns;
 const patternDirSrc = conf.ui.paths.source.patterns;
 const tplDir = conf.ui.paths.source.templates;
 
-function tplEncodeHbs(content_) {
-  let content = content_;
-  content = content.replace(/\{\{/g, '{{{<%');
-  content = content.replace(/(\})?\}\}/g, '$1%>}}}');
-  content = content.replace(/(\{\{\{<%)/g, '$1}}}');
-  content = content.replace(/(%>\}\}\})/g, '{{{$1');
-
-  return content;
-}
-
-function writeJsonHbs(jsonFile) {
-  fs.writeFileSync(jsonFile, '{\n  "<%": "{{",\n  "%>": "}}"\n}\n');
-}
-
-function tplEncode(tplType, argv) {
-  let ext;
-
-  if (!argv || !argv.e) {
-    ext = `.${tplType}`;
-  }
-  /* istanbul ignore next */
-  else if (argv.e[0] === '.') {
-    ext = argv.e;
-  }
-  /* istanbul ignore next */
-  else {
-    ext = `.${argv.e}`;
-  }
-
-  let dataObj = {};
-  let dataStr = '';
-
-  try {
-    dataObj = fs.readJsonSync(dataFile);
-    dataStr = fs.readFileSync(dataFile, conf.enc);
-  }
-  catch (err) {
-    // Fail gracefully. A correctly formed dataFile is not crucial for this.
-  }
-
-  const files = glob.sync(`${patternDirSrc}/**/*${ext}`) || [];
-
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    let content = fs.readFileSync(file, conf.enc);
-
-    // Only Handlebars right now. Could easily encode for other languages.
-    switch (tplType) {
-      case 'hbs':
-        content = tplEncodeHbs(content);
-        break;
-    }
-
-    const regex = new RegExp(`${ext}$`);
-
-    let mustacheFile = file.replace(regex, '.mustache');
-    let jsonFile = file.replace(regex, '.json');
-
-    fs.writeFileSync(mustacheFile, content);
-
-    // Only Handlebars right now. Could easily encode for other languages.
-    switch (tplType) {
-      case 'hbs':
-        writeJsonHbs(jsonFile);
-        break;
-    }
-
-    // Crucial part is done. Log to console.
-    utils.log(
-      '\x1b[36m%s\x1b[0m encoded to \x1b[36m%s\x1b[0m.', file.replace(rootDir, '').replace(/^\//, ''),
-      mustacheFile.replace(rootDir, '').replace(/^\//, '')
-    );
-
-    // Clean up.
-    fs.unlinkSync(file);
-
-    // Add key/values to _data.json if they are not there.
-    // These hide the encoded tags in all views except 03-templates.
-    if (!dataObj['<%']) {
-      if (Object.keys(dataObj).length) {
-        /* istanbul ignore next */
-        dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "<%": "<!--"\n}$1');
-      }
-      else {
-        dataStr = '{\n  "<%": "<!--"\n}\n';
-      }
-
-      try {
-        dataObj = JSON.parse(dataStr);
-      }
-      catch (err) {
-        /* istanbul ignore next */
-        utils.error(err);
-        /* istanbul ignore next */
-        return;
-      }
-
-      fs.writeFileSync(dataFile, dataStr);
-    }
-
-    if (!dataObj['%>']) {
-      dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "%>": "-->"\n}$1');
-
-      try {
-        dataObj = JSON.parse(dataStr);
-      }
-      catch (err) {
-        /* istanbul ignore next */
-        utils.error(err);
-        /* istanbul ignore next */
-        return;
-      }
-
-      fs.writeFileSync(dataFile, dataStr);
-    }
-  }
-}
-
-// Declare gulp tasks.
-
-gulp.task('tpl-compile:copy', function (cb) {
+function tplCompile() {
   const globExt = '.json';
   const files = glob.sync(`${tplDir}/**/*${globExt}`) || [];
 
@@ -211,6 +91,121 @@ gulp.task('tpl-compile:copy', function (cb) {
     // Log to console.
     utils.log('Template \x1b[36m%s\x1b[0m compiled.', destFile.replace(rootDir, '').replace(/^\//, ''));
   }
+}
+
+function tplEncode(tplType, argv) {
+  let ext;
+
+  if (!argv || !argv.e) {
+    ext = `.${tplType}`;
+  }
+  /* istanbul ignore next */
+  else if (argv.e[0] === '.') {
+    ext = argv.e;
+  }
+  /* istanbul ignore next */
+  else {
+    ext = `.${argv.e}`;
+  }
+
+  let dataObj = {};
+  let dataStr = '';
+
+  try {
+    dataObj = fs.readJsonSync(dataFile);
+    dataStr = fs.readFileSync(dataFile, conf.enc);
+  }
+  catch (err) {
+    // Fail gracefully. A correctly formed dataFile is not crucial for this.
+  }
+
+  const files = glob.sync(`${patternDirSrc}/**/*${ext}`) || [];
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    let content = fs.readFileSync(file, conf.enc);
+
+    // Only Handlebars right now. Perhaps encode for other languages in the future.
+    switch (tplType) {
+      case 'hbs':
+        content = content.replace(/\{\{/g, '{{{<%');
+        content = content.replace(/(\})?\}\}/g, '$1%>}}}');
+        content = content.replace(/(\{\{\{<%)/g, '$1}}}');
+        content = content.replace(/(%>\}\}\})/g, '{{{$1');
+
+        break;
+    }
+
+    const regex = new RegExp(`${ext}$`);
+
+    let mustacheFile = file.replace(regex, '.mustache');
+    let jsonFile = file.replace(regex, '.json');
+
+    fs.writeFileSync(mustacheFile, content);
+
+    // Only Handlebars right now. Perhaps encode for other languages in the future.
+    switch (tplType) {
+      case 'hbs':
+        fs.writeFileSync(jsonFile, '{\n  "<%": "{{",\n  "%>": "}}"\n}\n');
+
+        break;
+    }
+
+    // Crucial part is done. Log to console.
+    utils.log(
+      '\x1b[36m%s\x1b[0m encoded to \x1b[36m%s\x1b[0m.', file.replace(rootDir, '').replace(/^\//, ''),
+      mustacheFile.replace(rootDir, '').replace(/^\//, '')
+    );
+
+    // Clean up.
+    fs.unlinkSync(file);
+
+    // Add key/values to _data.json if they are not there.
+    // These hide the encoded tags in all views except 03-templates.
+    if (!dataObj['<%']) {
+      if (Object.keys(dataObj).length) {
+        /* istanbul ignore next */
+        dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "<%": "<!--"\n}$1');
+      }
+      else {
+        dataStr = '{\n  "<%": "<!--"\n}\n';
+      }
+
+      try {
+        dataObj = JSON.parse(dataStr);
+      }
+      catch (err) {
+        /* istanbul ignore next */
+        utils.error(err);
+        /* istanbul ignore next */
+        return;
+      }
+
+      fs.writeFileSync(dataFile, dataStr);
+    }
+
+    if (!dataObj['%>']) {
+      dataStr = dataStr.replace(/\s*\}(\s*)$/, ',\n  "%>": "-->"\n}$1');
+
+      try {
+        dataObj = JSON.parse(dataStr);
+      }
+      catch (err) {
+        /* istanbul ignore next */
+        utils.error(err);
+        /* istanbul ignore next */
+        return;
+      }
+
+      fs.writeFileSync(dataFile, dataStr);
+    }
+  }
+}
+
+// Declare gulp tasks.
+
+gulp.task('tpl-compile:copy', function (cb) {
+  tplCompile();
   cb();
 });
 
