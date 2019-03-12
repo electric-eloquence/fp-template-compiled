@@ -70,7 +70,7 @@ function tplCompile() {
     pubPattern = pubPattern.replace(/\//g, '-');
     pubPattern = pubPattern.replace(/~/g, '-');
     const pubFile = `${patternDirPub}/${pubPattern}/${pubPattern}.markup-only.html`;
-    const pubContent = fs.readFileSync(pubFile, conf.enc);
+    const pubContent = utils.beautifyTemplate(fs.readFileSync(pubFile, conf.enc));
     const destFile = `${rootDir}/backend/${tplCompileDir.trim()}/${fileMinusExt}${tplCompileExt}`;
 
     try {
