@@ -1,6 +1,6 @@
 {
   "name": "fp-tpl-compile",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Template Compile extension for Fepper",
   "main": "tpl-compile~extend.js",
   "scripts": {
