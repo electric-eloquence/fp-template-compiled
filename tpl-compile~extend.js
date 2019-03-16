@@ -74,7 +74,7 @@ function tplCompile() {
     const destFile = `${rootDir}/backend/${tplCompileDir.trim()}/${fileMinusExt}${tplCompileExt}`;
 
     try {
-      fs.writeFileSync(destFile, pubContent);
+      fs.outputFileSync(destFile, pubContent);
     }
     catch (err) {
       /* istanbul ignore next */
@@ -136,12 +136,12 @@ function tplEncode(tplType, argv) {
     let mustacheFile = file.replace(regex, '.mustache');
     let jsonFile = file.replace(regex, '.json');
 
-    fs.writeFileSync(mustacheFile, content);
+    fs.outputFileSync(mustacheFile, content);
 
     // Only Handlebars right now. Perhaps encode for other languages in the future.
     switch (tplType) {
       case 'hbs':
-        fs.writeFileSync(jsonFile, '{\n  "<%": "{{",\n  "%>": "}}"\n}\n');
+        fs.outputFileSync(jsonFile, '{\n  "<%": "{{",\n  "%>": "}}"\n}\n');
 
         break;
     }
@@ -176,7 +176,7 @@ function tplEncode(tplType, argv) {
         return;
       }
 
-      fs.writeFileSync(dataFile, dataStr);
+      fs.outputFileSync(dataFile, dataStr);
     }
 
     if (!dataObj['%>']) {
@@ -192,7 +192,7 @@ function tplEncode(tplType, argv) {
         return;
       }
 
-      fs.writeFileSync(dataFile, dataStr);
+      fs.outputFileSync(dataFile, dataStr);
     }
   }
 }
