@@ -46,7 +46,7 @@ describe('fp-tpl-compile', function () {
 {{/each}}
 <footer>{{{footer}}}</footer>
 `;
-      expect(tplCompileHbsExistsBefore).to.equal(false);
+      expect(tplCompileHbsExistsBefore).to.be.false;
       expect(compiled).to.equal(expected);
     });
 
@@ -70,7 +70,7 @@ describe('fp-tpl-compile', function () {
 {{/each}}
 <footer>{{{footer}}}</footer>
 `;
-      expect(tplCompileWLocalYmlExistsBefore).to.equal(false);
+      expect(tplCompileWLocalYmlExistsBefore).to.be.false;
       expect(compiled).to.equal(expected);
     });
 
@@ -165,8 +165,8 @@ extension', function () {
 {{{<%}}}/each{{{%>}}}
 <footer>{{{<%}}}{footer}{{{%>}}}</footer>
 `;
-      expect(tplEncodeJsonExistsBefore).to.equal(false);
-      expect(tplEncodeMustacheExistsBefore).to.equal(false);
+      expect(tplEncodeJsonExistsBefore).to.be.false;
+      expect(tplEncodeMustacheExistsBefore).to.be.false;
       expect(encoded).to.equal(expected);
     });
 
