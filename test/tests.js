@@ -1,9 +1,9 @@
 'use strict';
 
 const fs = require('fs-extra');
-const join = require('path').join;
+const {join} = require('path');
 
-const expect = require('chai').expect;
+const {expect} = require('chai');
 
 // Instantiate a gulp instance and assign it to the fp const.
 process.env.ROOT_DIR = __dirname;
