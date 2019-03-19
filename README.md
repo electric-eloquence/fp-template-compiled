@@ -24,6 +24,13 @@ partial goes where, the inclusion of partials, as appropriate per route, would
 be prototyped in Fepper. Running `fp tpl-compile` would then compile a single 
 template per route.
 
+### Install
+
+```shell
+cd extend
+npm install --save-dev fp-tpl-compile
+```
+
 ### Commands
 
 #### `fp tpl-compile`
