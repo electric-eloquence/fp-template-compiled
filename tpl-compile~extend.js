@@ -218,3 +218,8 @@ gulp.task('tpl-encode:hbs', function (cb) {
   tplEncode('hbs', argv);
   cb();
 });
+
+// Export tasks in case users want to run them without gulp.
+
+exports.tplCompile = tplCompile;
+exports.tplEncode = tplEncode;
