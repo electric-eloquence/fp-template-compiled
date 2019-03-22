@@ -46,7 +46,7 @@
   "dependencies": {
     "fs-extra": "^7.0.1",
     "glob": "^7.1.2",
-    "js-yaml": "^3.12.0",
+    "js-yaml": "^3.13.0",
     "yargs": "^5.0.0"
   },
   "devDependencies": {
