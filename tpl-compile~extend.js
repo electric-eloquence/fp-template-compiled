@@ -4,7 +4,7 @@ const path = require('path');
 
 const fs = require('fs-extra');
 const glob = require('glob');
-const gulp = require('gulp');
+const gulp = global.gulp || require('gulp');
 const utils = require('fepper-utils');
 const yaml = require('js-yaml');
 
