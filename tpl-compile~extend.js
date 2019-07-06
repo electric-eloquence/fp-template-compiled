@@ -230,6 +230,7 @@ Tasks:
     fp tpl-compile          Export fully recursed compiled templates to the backend.
     fp tpl-compile:copy     Like 'fp tpl-compile' but without running 'fp once' first.
     fp tpl-encode:hbs       Like 'fp tpl-compile' but in reverse. Mainly intended for Handlebars in the backend.
+    fp tpl-compile:help     Print fp-tpl-compile tasks and descriptions.
 `;
 
   utils.info(out);
