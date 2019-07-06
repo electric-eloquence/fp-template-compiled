@@ -219,6 +219,23 @@ gulp.task('tpl-encode:hbs', function (cb) {
   cb();
 });
 
+gulp.task('tpl-compile:help', function (cb) {
+  let out = `
+Fepper Template Compile Extension
+
+Use:
+    <task> [<additional args>...]
+
+Tasks:
+    fp tpl-compile          Export fully recursed compiled templates to the backend.
+    fp tpl-compile:copy     Like 'fp tpl-compile' but without running 'fp once' first.
+    fp tpl-encode:hbs       Like 'fp tpl-compile' but in reverse. Mainly intended for Handlebars in the backend.
+`;
+
+  utils.info(out);
+  cb();
+});
+
 // Export tasks in case users want to run them without gulp.
 
 exports.tplCompile = tplCompile;
