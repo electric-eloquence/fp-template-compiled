@@ -186,4 +186,13 @@ extension', function () {
       expect(globalData['%>']).to.equal('-->');
     });
   });
+
+  describe('help text', function () {
+    it('should print help text', function (done) {
+      fp.runSeq(
+        'tpl-compile:help',
+        done
+      );
+    });
+  });
 });
