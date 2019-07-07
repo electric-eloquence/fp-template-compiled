@@ -187,7 +187,7 @@ extension', function () {
     });
   });
 
-  describe('help text', function () {
+  describe('fp tpl-compile:help', function () {
     it('should print help text', function (done) {
       fp.runSeq(
         'tpl-compile:help',
