@@ -30,7 +30,7 @@ describe('fp-tpl-compile', function () {
       tplCompileHbsExistsBefore = fs.existsSync(tplCompileHbs);
       tplCompileWLocalYmlExistsBefore = fs.existsSync(tplCompileWLocalYml);
 
-      fp.runSequence(
+      fp.runSeq(
         'tpl-compile',
         done
       );
@@ -139,7 +139,7 @@ extension', function () {
       tplEncodeMustacheExistsBefore = fs.existsSync(tplEncodeMustache);
 
       fs.copyFileSync(tplEncodeBack, tplEncodeHbs);
-      fp.runSequence(
+      fp.runSeq(
         'tpl-encode:hbs',
         done
       );
