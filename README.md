@@ -73,7 +73,7 @@ with the extension used by the backend. The copied backend template in
 accompanied by a `.json` file.
 
 The `.json` file will declare ERB notation for alternate delimiters. The encoder 
-will also add the `"<%": "<!--"` and `"%>": "-->"` key-value pairs to 
+will also add the `"<%": "<!--"` and `"%>": "-->"` key:value pairs to 
 `source/_data/_data.json` if they aren't there already.
 
 One gotcha to be aware of is that underscore-prefixed hidden files must not have 
