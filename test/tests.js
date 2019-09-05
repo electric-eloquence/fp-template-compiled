@@ -52,12 +52,12 @@ describe('fp-tpl-compile', function () {
 
     it('includes partial templates in the compiled template', function () {
       const compiled = fs.readFileSync(tplCompileHbs, enc);
-      const contained = `
+      const partial = `
   {{#if bar}}
     <p>{{backend_content}}</p>
   {{/if}}
 `;
-      expect(compiled).to.contain(contained);
+      expect(compiled).to.have.string(partial);
     });
 
     it('compiles templates to an alternate backend directory with alternate extension', function () {
@@ -77,12 +77,12 @@ describe('fp-tpl-compile', function () {
     it('includes partial templates in the template compiled to the alternate backend directory with alternate \
 extension', function () {
       const compiled = fs.readFileSync(tplCompileWLocalYml, enc);
-      const contained = `
+      const partial = `
   {{#if bar}}
     <p>{{backend_content}}</p>
   {{/if}}
 `;
-      expect(compiled).to.contain(contained);
+      expect(compiled).to.have.string(partial);
     });
 
     it('retains and beautifies tags that adhere to the Mustache spec', function () {
