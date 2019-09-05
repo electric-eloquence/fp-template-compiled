@@ -36,7 +36,7 @@ describe('fp-tpl-compile', function () {
       );
     });
 
-    it('should compile templates to the backend', function () {
+    it('compiles templates to the backend', function () {
       const compiled = fs.readFileSync(tplCompileHbs, enc);
       const expected = `<h1>{{title}}</h1>
 {{#each foo}}
@@ -50,7 +50,7 @@ describe('fp-tpl-compile', function () {
       expect(compiled).to.equal(expected);
     });
 
-    it('should include partial templates in the compiled template', function () {
+    it('includes partial templates in the compiled template', function () {
       const compiled = fs.readFileSync(tplCompileHbs, enc);
       const contained = `
   {{#if bar}}
@@ -60,7 +60,7 @@ describe('fp-tpl-compile', function () {
       expect(compiled).to.contain(contained);
     });
 
-    it('should compile templates to an alternate backend directory with alternate extension', function () {
+    it('compiles templates to an alternate backend directory with alternate extension', function () {
       const compiled = fs.readFileSync(tplCompileWLocalYml, enc);
       const expected = `<h1>{{title}}</h1>
 {{#each foo}}
@@ -74,7 +74,7 @@ describe('fp-tpl-compile', function () {
       expect(compiled).to.equal(expected);
     });
 
-    it('should include partial templates in the template compiled to the alternate backend directory with alternate \
+    it('includes partial templates in the template compiled to the alternate backend directory with alternate \
 extension', function () {
       const compiled = fs.readFileSync(tplCompileWLocalYml, enc);
       const contained = `
@@ -85,7 +85,7 @@ extension', function () {
       expect(compiled).to.contain(contained);
     });
 
-    it('should retain and beautify tags that adhere to the Mustache spec', function () {
+    it('retains and beautifies tags that adhere to the Mustache spec', function () {
       const tplCompileMustache = join(__dirname, 'backend/docroot/templates/tpl-compile-mustache.hbs');
       const compiled = fs.readFileSync(tplCompileMustache, enc);
       const expected = `<h1>{{title}}</h1>
@@ -155,7 +155,7 @@ extension', function () {
       }
     });
 
-    it('should encode backend template into Fepper templates', function () {
+    it('encodes backend template into Fepper templates', function () {
       const encoded = fs.readFileSync(tplEncodeMustache, enc);
       const expected = `<h1>{{{<%}}}title{{{%>}}}</h1>
 {{{<%}}}#each foo{{{%>}}}
@@ -170,14 +170,14 @@ extension', function () {
       expect(encoded).to.equal(expected);
     });
 
-    it('should write the .json file for the encoded template to compile with', function () {
+    it('writes the .json file for the encoded template to compile with', function () {
       const compileData = fs.readJsonSync(tplEncodeJson);
 
       expect(compileData['<%']).to.equal('{{');
       expect(compileData['%>']).to.equal('}}');
     });
 
-    it('should write data to the global _data.json for rendering human-viewable patterns from the encoded templates\
+    it('writes data to the global _data.json for rendering human-viewable patterns from the encoded templates\
 ', function () {
       const globalData = fs.readJsonSync(_dataJson);
 
@@ -188,7 +188,7 @@ extension', function () {
   });
 
   describe('fp tpl-compile:help', function () {
-    it('should print help text', function (done) {
+    it('prints help text', function (done) {
       fp.runSeq(
         'tpl-compile:help',
         done
