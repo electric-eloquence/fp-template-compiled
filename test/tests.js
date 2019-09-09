@@ -74,8 +74,8 @@ describe('fp-tpl-compile', function () {
       expect(compiled).to.equal(expected);
     });
 
-    it('includes partial templates in the template compiled to the alternate backend directory with alternate \
-extension', function () {
+    it('includes partial templates in the template compiled to the alternate backend directory with alternate extension\
+', function () {
       const compiled = fs.readFileSync(tplCompileWLocalYml, enc);
       const partial = `
   {{#if bar}}
