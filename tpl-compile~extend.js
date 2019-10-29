@@ -29,10 +29,9 @@ function tplCompile() {
     try {
       stat = fs.statSync(file);
     }
-    catch (err) {
-      /* istanbul ignore next */
+    catch (err) /* istanbul ignore next */ {
       utils.error(err);
-      /* istanbul ignore next */
+
       continue;
     }
 
@@ -52,9 +51,7 @@ function tplCompile() {
         const yml = fs.readFileSync(ymlFile, conf.enc);
         data = yaml.safeLoad(yml);
       }
-      catch (err) {
-        // Fail gracefully.
-      }
+      catch {} // eslint-disable-line no-empty
     }
 
     const tplCompileDir = data.tpl_compile_dir || pref.tpl_compile_dir;
@@ -76,10 +73,9 @@ function tplCompile() {
     try {
       fs.outputFileSync(destFile, pubContent);
     }
-    catch (err) {
-      /* istanbul ignore next */
+    catch (err) /* istanbul ignore next */ {
       utils.error(err);
-      /* istanbul ignore next */
+
       continue;
     }
 
@@ -110,7 +106,7 @@ function tplEncode(tplType, argv) {
     dataObj = fs.readJsonSync(dataFile);
     dataStr = fs.readFileSync(dataFile, conf.enc);
   }
-  catch (err) {
+  catch {
     // Fail gracefully. A correctly formed dataFile is not crucial for this.
   }
 
@@ -169,10 +165,9 @@ function tplEncode(tplType, argv) {
       try {
         dataObj = JSON.parse(dataStr);
       }
-      catch (err) {
-        /* istanbul ignore next */
+      catch (err) /* istanbul ignore next */ {
         utils.error(err);
-        /* istanbul ignore next */
+
         return;
       }
 
@@ -185,10 +180,9 @@ function tplEncode(tplType, argv) {
       try {
         dataObj = JSON.parse(dataStr);
       }
-      catch (err) {
-        /* istanbul ignore next */
+      catch (err) /* istanbul ignore next */ {
         utils.error(err);
-        /* istanbul ignore next */
+
         return;
       }
 
