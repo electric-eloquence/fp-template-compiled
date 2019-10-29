@@ -50,6 +50,7 @@
     "yargs": "^5.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
     "chai": "4.x",
     "coveralls": "3.x",
     "eslint": "6.x",
