@@ -207,7 +207,7 @@ gulp.task('tpl-compile', function (cb) {
 });
 
 gulp.task('tpl-encode:hbs', function (cb) {
-  const argv = require('minimist')(process.argv.slice(2));;
+  const argv = require('minimist')(process.argv.slice(2));
 
   tplEncode('hbs', argv);
   cb();
