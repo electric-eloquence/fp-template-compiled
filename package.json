@@ -45,7 +45,6 @@
   },
   "dependencies": {
     "glob": "^7.1.2",
-    "js-yaml": "^3.13.1",
     "minimist": "^1.2.0"
   },
   "devDependencies": {
@@ -58,6 +57,7 @@
     "fs-extra": "^8.1.0",
     "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts",
     "husky": "1.x",
+    "js-yaml": "^3.13.1",
     "mocha": "6.x",
     "nyc": "14.x"
   }
