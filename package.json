@@ -56,9 +56,9 @@
     "fepper-utils": "*",
     "fs-extra": "^8.1.0",
     "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts",
-    "husky": "1.x",
+    "husky": "4.x",
     "js-yaml": "^3.13.1",
-    "mocha": "6.x",
-    "nyc": "14.x"
+    "mocha": "7.x",
+    "nyc": "15.x"
   }
 }
