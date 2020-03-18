@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "glob": "^7.1.2",
-    "minimist": "0.0.8"
+    "minimist": "0.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
