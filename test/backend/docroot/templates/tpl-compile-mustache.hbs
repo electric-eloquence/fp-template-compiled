@@ -1,22 +1,10 @@
-<h1>{{title}}</h1>
-{{# foo }}
-  {{#if bar}}
+<h1>{{title}}</h1> {{# foo }} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/ foo }}
-{{^ foo }}
-  {{#if bar}}
+  {{/if}} {{/ foo }} {{^ foo }} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/ foo }}
-{{#bar}}
-  {{#if bar}}
+  {{/if}} {{/ foo }} {{#bar}} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/bar}}
-{{^bar}}
-  {{#if bar}}
+  {{/if}} {{/bar}} {{^bar}} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/bar}}
+  {{/if}} {{/bar}}
 <footer>{{{footer}}}</footer>

@@ -38,12 +38,9 @@ describe('fp-tpl-compile', function () {
 
     it('compiles templates to the backend', function () {
       const compiled = fs.readFileSync(tplCompileHbs, enc);
-      const expected = `<h1>{{title}}</h1>
-{{#each foo}}
-  {{#if bar}}
+      const expected = `<h1>{{title}}</h1> {{#each foo}} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/each}}
+  {{/if}} {{/each}}
 <footer>{{{footer}}}</footer>
 `;
       expect(tplCompileHbsExistsBefore).to.be.false;
@@ -52,22 +49,17 @@ describe('fp-tpl-compile', function () {
 
     it('includes partial templates in the compiled template', function () {
       const compiled = fs.readFileSync(tplCompileHbs, enc);
-      const partial = `
-  {{#if bar}}
+      const partial = `{{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-`;
+  {{/if}}`;
       expect(compiled).to.have.string(partial);
     });
 
     it('compiles templates to an alternate backend directory with alternate extension', function () {
       const compiled = fs.readFileSync(tplCompileWLocalYml, enc);
-      const expected = `<h1>{{title}}</h1>
-{{#each foo}}
-  {{#if bar}}
+      const expected = `<h1>{{title}}</h1> {{#each foo}} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/each}}
+  {{/if}} {{/each}}
 <footer>{{{footer}}}</footer>
 `;
       expect(tplCompileWLocalYmlExistsBefore).to.be.false;
@@ -77,10 +69,10 @@ describe('fp-tpl-compile', function () {
     it('includes partial templates in the template compiled to the alternate backend directory with alternate extension\
 ', function () {
       const compiled = fs.readFileSync(tplCompileWLocalYml, enc);
-      const partial = `
-  {{#if bar}}
+      const partial = `<h1>{{title}}</h1> {{#each foo}} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
+  {{/if}} {{/each}}
+<footer>{{{footer}}}</footer>
 `;
       expect(compiled).to.have.string(partial);
     });
@@ -88,27 +80,15 @@ describe('fp-tpl-compile', function () {
     it('retains and beautifies tags that adhere to the Mustache spec', function () {
       const tplCompileMustache = join(__dirname, 'backend/docroot/templates/tpl-compile-mustache.hbs');
       const compiled = fs.readFileSync(tplCompileMustache, enc);
-      const expected = `<h1>{{title}}</h1>
-{{# foo }}
-  {{#if bar}}
+      const expected = `<h1>{{title}}</h1> {{# foo }} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/ foo }}
-{{^ foo }}
-  {{#if bar}}
+  {{/if}} {{/ foo }} {{^ foo }} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/ foo }}
-{{#bar}}
-  {{#if bar}}
+  {{/if}} {{/ foo }} {{#bar}} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/bar}}
-{{^bar}}
-  {{#if bar}}
+  {{/if}} {{/bar}} {{^bar}} {{#if bar}}
     <p>{{backend_content}}</p>
-  {{/if}}
-{{/bar}}
+  {{/if}} {{/bar}}
 <footer>{{{footer}}}</footer>
 `;
       expect(compiled).to.equal(expected);

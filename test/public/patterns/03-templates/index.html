@@ -42,31 +42,7 @@
             >&#x276E;&#x276F;</a>
           </div>
         </div>
-        <div class="sg-pattern-example cf">
-          <h1>{{title}}</h1>
-{{# foo }}
-  {{#if bar}}
-    <p>{{backend_content}}</p>
-  {{/if}}
-{{/ foo }}
-{{^ foo }}
-  {{#if bar}}
-    <p>{{backend_content}}</p>
-  {{/if}}
-{{/ foo }}
-{{#bar}}
-  {{#if bar}}
-    <p>{{backend_content}}</p>
-  {{/if}}
-{{/bar}}
-{{^bar}}
-  {{#if bar}}
-    <p>{{backend_content}}</p>
-  {{/if}}
-{{/bar}}
-<footer>{{{footer}}}</footer>
-
-        </div>
+        <div class="sg-pattern-example cf"></div>
         <script type="text/json" id="sg-pattern-data-templates-tpl-compile-mustache" class="sg-pattern-data">
           {"lineage":[{"lineagePattern":"templates-tpl-compile-partial","lineagePath":"patterns/03-templates-tpl-compile-partial/03-templates-tpl-compile-partial.html","isHidden":false}],"lineageExists":true,"lineageR":[],"lineageRExists":false,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile Mustache","patternPartial":"templates-tpl-compile-mustache","patternState":"","portReloader":35729,"portServer":3000}
         </script>
@@ -99,12 +75,7 @@
             >&#x276E;&#x276F;</a>
           </div>
         </div>
-        <div class="sg-pattern-example cf">
-          #if bar
-  <p>backend_content</p>
-/if
-
-        </div>
+        <div class="sg-pattern-example cf"></div>
         <script type="text/json" id="sg-pattern-data-templates-tpl-compile-partial" class="sg-pattern-data">
           {"lineage":[],"lineageExists":false,"lineageR":[{"lineagePattern":"templates-tpl-compile-mustache","lineagePath":"patterns/03-templates-tpl-compile-mustache/03-templates-tpl-compile-mustache.html","isHidden":false},{"lineagePattern":"templates-tpl-compile-w-local-yml","lineagePath":"patterns/03-templates-tpl-compile-w-local-yml/03-templates-tpl-compile-w-local-yml.html","isHidden":false},{"lineagePattern":"templates-tpl-compile","lineagePath":"patterns/03-templates-tpl-compile/03-templates-tpl-compile.html","isHidden":false}],"lineageRExists":true,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile Partial","patternPartial":"templates-tpl-compile-partial","patternState":"","portReloader":35729,"portServer":3000}
         </script>
@@ -137,16 +108,7 @@
             >&#x276E;&#x276F;</a>
           </div>
         </div>
-        <div class="sg-pattern-example cf">
-          <h1>{{title}}</h1>
-{{#each foo}}
-  {{#if bar}}
-    <p>{{backend_content}}</p>
-  {{/if}}
-{{/each}}
-<footer>{{{footer}}}</footer>
-
-        </div>
+        <div class="sg-pattern-example cf"></div>
         <script type="text/json" id="sg-pattern-data-templates-tpl-compile-w-local-yml" class="sg-pattern-data">
           {"lineage":[{"lineagePattern":"templates-tpl-compile-partial","lineagePath":"patterns/03-templates-tpl-compile-partial/03-templates-tpl-compile-partial.html","isHidden":false}],"lineageExists":true,"lineageR":[],"lineageRExists":false,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile W Local Yml","patternPartial":"templates-tpl-compile-w-local-yml","patternState":"","portReloader":35729,"portServer":3000}
         </script>
@@ -179,16 +141,7 @@
             >&#x276E;&#x276F;</a>
           </div>
         </div>
-        <div class="sg-pattern-example cf">
-          <h1>{{title}}</h1>
-{{#each foo}}
-  {{#if bar}}
-    <p>{{backend_content}}</p>
-  {{/if}}
-{{/each}}
-<footer>{{{footer}}}</footer>
-
-        </div>
+        <div class="sg-pattern-example cf"></div>
         <script type="text/json" id="sg-pattern-data-templates-tpl-compile" class="sg-pattern-data">
           {"lineage":[{"lineagePattern":"templates-tpl-compile-partial","lineagePath":"patterns/03-templates-tpl-compile-partial/03-templates-tpl-compile-partial.html","isHidden":false}],"lineageExists":true,"lineageR":[],"lineageRExists":false,"patternDesc":"","patternExtension":".mustache","patternName":"Tpl Compile","patternPartial":"templates-tpl-compile","patternState":"","portReloader":35729,"portServer":3000}
         </script>
@@ -197,3 +150,32 @@
   </div> <!--end #sg-patterns-->
 
 </div><!--end .sg-main-->
+
+<script>
+  // Hydrate viewalls.
+  const patternEls = document.getElementsByClassName('sg-pattern');
+
+  for (let patternEl of patternEls) {
+    const exampleEl = patternEl.querySelector('.sg-pattern-example');
+    const linkEl = patternEl.querySelector('.sg-pattern-link');
+    const xhr = new XMLHttpRequest();
+
+    if (linkEl && linkEl.href) {
+      const regex = /\.\w+$/;
+      const matches = linkEl.href.match(regex);
+      const ext = matches && matches[0] ? matches[0] : matches;
+
+      if (ext) {
+        const link = linkEl.href.replace(regex, '.markup-only' + ext);
+
+        xhr.open('GET', link, true);
+        xhr.onload = () => {
+          if (xhr.responseText) {
+            exampleEl.innerHTML = xhr.responseText;
+          }
+        };
+        xhr.send();
+      }
+    }
+  }
+</script>
