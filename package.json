@@ -58,7 +58,7 @@
     "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts",
     "husky": "4.x",
     "js-yaml": "^3.13.1",
-    "mocha": "7.x",
+    "mocha": "8.x",
     "nyc": "15.x"
   }
 }
