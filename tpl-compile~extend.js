@@ -49,7 +49,7 @@ function tplCompile() {
     if (fs.existsSync(ymlFile)) {
       try {
         const yml = fs.readFileSync(ymlFile, conf.enc);
-        data = yaml.safeLoad(yml);
+        data = yaml.load(yml);
       }
       catch {} // eslint-disable-line no-empty
     }

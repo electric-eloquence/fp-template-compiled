@@ -46,14 +46,14 @@
   "dependencies": {
     "fs-extra": "^8.1.0",
     "glob": "^7.1.2",
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^4.1.0",
     "minimist": "^1.2.5"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "@babel/eslint-parser": "^7.16.3",
     "chai": "4.x",
     "coveralls": "3.x",
-    "eslint": "7.x",
+    "eslint": "8.x",
     "fepper": "*",
     "fepper-utils": "*",
     "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts",
