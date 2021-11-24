@@ -87,14 +87,13 @@ function tplCompile() {
 function tplEncode(tplType, argv) {
   let ext;
 
+  /* istanbul ignore else */
   if (!argv || !argv.e) {
     ext = `.${tplType}`;
   }
-  /* istanbul ignore next */
   else if (argv.e[0] === '.') {
     ext = argv.e;
   }
-  /* istanbul ignore next */
   else {
     ext = `.${argv.e}`;
   }
