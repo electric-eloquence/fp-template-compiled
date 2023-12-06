@@ -42,7 +42,7 @@
   "homepage": "https://github.com/electric-eloquence/fp-tpl-compile#readme",
   "dependencies": {
     "fs-extra": "^10.0.0",
-    "glob": "^7.1.2",
+    "glob": "^9.0.0",
     "js-yaml": "^4.1.0",
     "minimist": "^1.2.5"
   },
